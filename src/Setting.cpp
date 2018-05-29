@@ -1,11 +1,11 @@
 #include "Setting.hpp"
 
-Setting::Setting(void){}
+Setting::Setting(void){m_valueInt = 0;}
 Setting::~Setting(void){}
 
 bool Setting::parse(const std::string &str)
 {
-    std::stringstream ss(str);
+    std::istringstream ss(str);
     std::string line;
     
     /* Get the setting name */
@@ -24,9 +24,11 @@ bool Setting::parse(const std::string &str)
     //printf("Name: %s    Value: %s\n", m_name.c_str(), m_valueStr.c_str());
     
     /* See if we can parse an int out of it */
-    ss.str(m_valueStr);
-    ss >> m_valueInt;
-    if(ss.fail()) {
+    //ss.str(m_valueStr);
+    std::string ssVal = ss.str();
+    //ss >> m_valueInt;
+    
+    if(!(ss >> m_valueInt)) {
         printf("failed to get int from string: %s\n", m_valueStr.c_str());
         m_valueInt = -1;
     }

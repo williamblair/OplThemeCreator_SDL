@@ -1,6 +1,8 @@
 # Makefile for test program for linux
 CC = g++
-CFLAGS = -std=c++11
+
+# Make sure to remove -g when not debugging!
+CFLAGS = -g -std=c++11
 
 BIN = main
 OBJS = build/main.o build/Sprite.o build/Display.o build/Setting.o build/Element.o
