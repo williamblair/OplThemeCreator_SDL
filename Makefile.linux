@@ -1,4 +1,4 @@
-# Makefile for test program for windows
+# Makefile for test program for linux
 CC = g++
 CFLAGS = -std=c++11
 
