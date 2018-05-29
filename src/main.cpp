@@ -1,6 +1,7 @@
 #include "Display.hpp"
 #include "Sprite.hpp"
 #include "Setting.hpp"
+#include "Element.hpp"
 
 #include <cstdlib>
 #include <cstdio>
@@ -14,6 +15,7 @@ Display d;
 Setting s;
 
 std::vector<Setting> settings;
+std::vector<Element> elements;
 
 std::string themeDir;
 
@@ -80,6 +82,42 @@ void parseFile(const char *fileName)
     }
     
     printf("\nCurrent line: %s\n\n", line.c_str());
+    
+    /* Iterate through elements and their settings */
+    for(; !file.eof(); std::getline(file, line))
+    {
+        /* Skip if an empty or is a comment line */
+        if(line.empty() || line.at(0) == '#' || line.find_first_not_of(' ') == std::string::npos) continue;
+        
+        /* If we're defining a new element */
+        if(line.find(":") != std::string::npos) 
+        {
+            Element element;
+            if(element.parse(line))
+                elements.push_back(element);
+        }
+        else
+        {
+            Setting s;
+            if(s.parse(line))
+                elements.back().addSetting(s);
+        }
+    }
+    
+    // debug
+    printf("Settings: \n--------\n");
+    for(Setting s : settings) {
+        s.print();
+    }
+    
+    printf("\n\n");
+    
+    printf("Elements: \n--------\n");
+    for(Element e : elements)
+    {
+        printf("    ");
+        e.print();
+    }
     
     file.close();
 }
