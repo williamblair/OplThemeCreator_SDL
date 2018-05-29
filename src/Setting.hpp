@@ -14,6 +14,9 @@ public:
     /* Parse a given string to get its value(s) */
     bool parse(const std::string &str);
     
+    /* Print the settings name and value to stdout */
+    void print(void);
+    
     /* Getters */
     std::string getName(void);
     std::string getValueStr(void);

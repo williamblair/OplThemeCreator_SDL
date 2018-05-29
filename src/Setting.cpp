@@ -21,7 +21,7 @@ bool Setting::parse(const std::string &str)
     /* Get the setting value */
     std::getline(ss, m_valueStr, '=');
     
-    printf("Name: %s    Value: %s\n", m_name.c_str(), m_valueStr.c_str());
+    //printf("Name: %s    Value: %s\n", m_name.c_str(), m_valueStr.c_str());
     
     /* See if we can parse an int out of it */
     ss.str(m_valueStr);
@@ -32,6 +32,11 @@ bool Setting::parse(const std::string &str)
     }
     
     return true;    
+}
+
+void Setting::print(void)
+{
+    printf("Name: %8s    Value: %8s\n", m_name.c_str(), m_valueStr.c_str());
 }
 
 std::string Setting::getName(void){return m_name;}
