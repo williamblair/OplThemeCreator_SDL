@@ -1,3 +1,5 @@
-*.o
+build/*.o
 *.exe
 *.dll
+main
+thm
