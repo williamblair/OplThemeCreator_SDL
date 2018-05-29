@@ -1,0 +1,19 @@
+# Makefile for test program for linux
+CC = g++
+CFLAGS = -std=c++11
+
+BIN = main
+OBJS = build/main.o build/Sprite.o build/Display.o build/Setting.o build/Element.o
+
+# Note - the order here matters - different order may result in errors!
+#-lpthread -lstdc++fs
+LIBS = -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+
+all: $(OBJS)
+	$(CC) $(CFLAGS) -o $(BIN) $(OBJS) $(INCDIRS) $(LIBDIRS) $(LIBS)
+
+build/%.o: src/%.cpp
+	$(CC) $(CFLAGS) -c -o $@ $< $(INCDIRS)
+    
+clean:
+	rm -rf build/*

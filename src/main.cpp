@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     }
     
     themeDir = argv[1];
-    parseFile((themeDir+"\\conf_theme.cfg").c_str());
+    parseFile((themeDir+"/conf_theme.cfg").c_str());
 
     if(!d.init(640, 480, "OPL Theme Creator")) {
         exit(-1);
