@@ -1,6 +1,6 @@
 # Makefile for test program for windows
 CC = mingw32-g++
-CFLAGS = -std=gnu++11
+CFLAGS = -std=gnu++11 -g
 
 BIN = main.exe
 OBJS = build/main.o build/Sprite.o build/Display.o build/Setting.o build/Element.o build/SettingHandlers.o build/HexColorParser.o
