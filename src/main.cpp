@@ -2,6 +2,7 @@
 #include "Sprite.hpp"
 #include "Setting.hpp"
 #include "Element.hpp"
+#include "SettingHandlers.hpp"
 
 #include <cstdlib>
 #include <cstdio>
@@ -10,6 +11,8 @@
 
 void mainLoop(void);
 void parseFile(const char *filename);
+
+void applySettings(void);
 
 Display d;
 Setting s;
@@ -29,10 +32,15 @@ int main(int argc, char *argv[])
     
     themeDir = argv[1];
     parseFile((themeDir+"/conf_theme.cfg").c_str());
-
+    
+    /* This must happen before applying settings
+     * as setting the background color requires the 
+     * SDL Surface to already by initialized*/
     if(!d.init(640, 480, "OPL Theme Creator")) {
         exit(-1);
     }
+    
+    applySettings();
     
     mainLoop();
     
@@ -121,3 +129,12 @@ void parseFile(const char *fileName)
     
     file.close();
 }
+
+void applySettings(void)
+{
+    for(Setting s : settings)
+    {
+        if(s.getName() == "bg_color") hBGColor(d, s);
+    }
+}
+
