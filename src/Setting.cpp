@@ -1,6 +1,6 @@
 #include "Setting.hpp"
 
-Setting::Setting(void){}
+Setting::Setting(void){m_valueInt = -1;}
 Setting::~Setting(void){}
 
 bool Setting::parse(const std::string &str)
@@ -21,15 +21,9 @@ bool Setting::parse(const std::string &str)
     /* Get the setting value */
     std::getline(ss, m_valueStr, '=');
     
-    //printf("Name: %s    Value: %s\n", m_name.c_str(), m_valueStr.c_str());
-    
-    /* See if we can parse an int out of it */
-    ss.str(m_valueStr);
-    ss >> m_valueInt;
-    if(ss.fail()) {
-        printf("failed to get int from string: %s\n", m_valueStr.c_str());
-        m_valueInt = -1;
-    }
+    /* See if we can parse an int out of it.
+     * It might not work but that's ok */
+    sscanf(m_valueStr.c_str(), "%d", &m_valueInt);
     
     return true;    
 }
