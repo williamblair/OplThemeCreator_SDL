@@ -5,7 +5,7 @@ Setting::~Setting(void){}
 
 bool Setting::parse(const std::string &str)
 {
-    std::istringstream ss(str);
+    std::stringstream ss(str);
     std::string line;
     
     /* Get the setting name */
