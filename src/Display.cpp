@@ -5,6 +5,8 @@ Display::Display(void)
     m_window = NULL;
     m_surface = NULL;
     
+    m_bgColor = 0;
+    
     imageWasInit = false;
 }
 
@@ -76,9 +78,21 @@ SDL_Surface *Display::getSurface(void)
     return m_surface;
 }
 
-void Display::clear(Uint32 color)
+void Display::setBGColor(Uint32 color)
 {
-    SDL_FillRect(m_surface, NULL, color);
+    int r,g,b;
+    
+    /* Extract each color to use in SDL_MapRGB */
+    r = (color & 0xFF0000) >> 16;
+    g = (color & 0x00FF00) >> 8;
+    b = (color & 0x0000FF);
+    
+    m_bgColor = SDL_MapRGB(m_surface->format, r,g,b);
+}
+
+void Display::clear(void)
+{
+    SDL_FillRect(m_surface, NULL, m_bgColor);
 }
 
 void Display::update(void)

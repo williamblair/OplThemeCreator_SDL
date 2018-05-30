@@ -18,8 +18,11 @@ class Display
         /* Initializes SDL subsystems and creates window */
         bool init(int, int, const char*);
         
-        /* Fills the screen with an (optional) specified color */
-        void clear(Uint32 color=0);
+        /* Fills the screen with the BG color */
+        void clear(void);
+        
+        /* Set the color to clear with by default */
+        void setBGColor(Uint32 color);
         
         /* Flips the screen surface */
         void update(void);
@@ -30,6 +33,8 @@ class Display
     private:
         SDL_Window *m_window;
         SDL_Surface *m_surface;
+        
+        Uint32 m_bgColor;
         
         // For SDL_Image, which doesn't have a tracker for this
         bool imageWasInit;
