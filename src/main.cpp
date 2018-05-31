@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <vector>
 #include <fstream>
+#include <map>
 
 void mainLoop(void);
 void parseFile(const char *filename);
@@ -19,6 +20,11 @@ Setting s;
 
 std::vector<Setting> settings;
 std::vector<Element> elements;
+
+/* Colors we're going to use to draw with 
+ * (besides BG Color), which is kept in
+ * Display */
+std::map<std::string, Uint32> settingColors;
 
 std::string themeDir;
 
@@ -134,7 +140,23 @@ void applySettings(void)
 {
     for(Setting s : settings)
     {
-        if(s.getName() == "bg_color") hBGColor(d, s);
+        if(s.getName() == "bg_color")                     hBGColor(d, s);
+        else if(s.getName() == "hint_text_color" ||
+                s.getName() == "item_text_color" ||
+                s.getName() == "menu_text_color" ||
+                s.getName() == "sel_text_color" ||
+                s.getName() == "settings_text_color" ||
+                s.getName() == "text_color" ||
+                s.getName() == "ui_text_color"
+        )                                                 hColorSetting(d, s);
+    }
+    
+    // DEBUG
+    printf("\n\nSetting Colors:\n");
+    std::map<std::string,Uint32>::iterator it;
+    for(it = settingColors.begin(); it != settingColors.end(); it++)
+    {
+        printf("%s: 0x%X\n", it->first.c_str(), it->second);
     }
 }
 
