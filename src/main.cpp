@@ -22,8 +22,8 @@ std::vector<Setting> settings;
 std::vector<Element> elements;
 
 /* Colors we're going to use to draw with 
- * (besides BG Color), which is kept in
- * Display */
+ * (besides BG Color, which is kept in
+ * Display) */
 std::map<std::string, Uint32> settingColors;
 
 std::string themeDir;
