@@ -19,3 +19,8 @@ bool hColorSetting(Display &d, Setting &s)
     return true;
 }
 
+bool hDefaultFont(Display &d, Setting &s)
+{   /* Add the theme path first since we're not running
+     * in the theme directory necessarily */
+    return fontHandler.open((themeDir+"/"+s.getValueStr()));
+}

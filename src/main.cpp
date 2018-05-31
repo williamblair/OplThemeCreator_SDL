@@ -3,6 +3,7 @@
 #include "Setting.hpp"
 #include "Element.hpp"
 #include "SettingHandlers.hpp"
+#include "FontHandler.hpp"
 
 #include <cstdlib>
 #include <cstdio>
@@ -17,6 +18,7 @@ void applySettings(void);
 
 Display d;
 Setting s;
+FontHandler fontHandler;
 
 std::vector<Setting> settings;
 std::vector<Element> elements;
@@ -68,6 +70,9 @@ void mainLoop(void)
         
         /* Clear the screen */
         d.clear();
+        
+        /* Draw some text */
+        fontHandler.draw(d.getSurface());
         
         /* Update the screen */
         d.update();
@@ -138,6 +143,10 @@ void parseFile(const char *fileName)
 
 void applySettings(void)
 {
+    /* Set some defaults first */
+    fontHandler.setX(0); fontHandler.setY(0);
+    fontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
+    
     for(Setting s : settings)
     {
         if(s.getName() == "bg_color")                     hBGColor(d, s);
@@ -149,6 +158,7 @@ void applySettings(void)
                 s.getName() == "text_color" ||
                 s.getName() == "ui_text_color"
         )                                                 hColorSetting(d, s);
+        else if(s.getName() == "default_font")            hDefaultFont(d, s);
     }
     
     // DEBUG
@@ -158,5 +168,6 @@ void applySettings(void)
     {
         printf("%s: 0x%X\n", it->first.c_str(), it->second);
     }
+    
 }
 
