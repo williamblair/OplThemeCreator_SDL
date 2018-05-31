@@ -3,7 +3,8 @@ CC = mingw32-g++
 CFLAGS = -std=gnu++11 -g
 
 BIN = main.exe
-OBJS = build/main.o build/Sprite.o build/Display.o build/Setting.o build/Element.o build/SettingHandlers.o build/HexColorParser.o
+OBJS = build/main.o build/Sprite.o build/Display.o build/Setting.o build/Element.o build/SettingHandlers.o build/HexColorParser.o \
+       build/FontHandler.o
 
 INCDIRS = -IC:\Compilers\MinGW\external_libs\SDL2-2.0.7\i686-w64-mingw32\include \
           -IC:\Compilers\MinGW\external_libs\SDL2-2.0.7\i686-w64-mingw32\include\SDL2 \

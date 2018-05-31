@@ -5,7 +5,8 @@ CC = g++
 CFLAGS = -g -std=c++11
 
 BIN = main
-OBJS = build/main.o build/Sprite.o build/Display.o build/Setting.o build/Element.o build/SettingHandlers.o build/HexColorParser.o
+OBJS = build/main.o build/Sprite.o build/Display.o build/Setting.o build/Element.o build/SettingHandlers.o build/HexColorParser.o \
+       build/FontHandler.o
 
 # Note - the order here matters - different order may result in errors!
 #-lpthread -lstdc++fs
