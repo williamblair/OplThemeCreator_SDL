@@ -1,6 +1,6 @@
 #include "Element.hpp"
 
-Element::Element(void){}
+Element::Element(void){m_hasImage = false;}
 Element::~Element(void){}
 
 bool Element::parse(const std::string line)
@@ -25,11 +25,41 @@ bool Element::addSetting(Setting setting)
     return true;
 }
 
+bool Element::addImage(const std::string &imageStr)
+{
+    if(!m_sprite.loadImage(imageStr.c_str())) {
+        return false;
+    }
+    m_hasImage = true;
+    return true;
+}
+
 void Element::print(void)
 {
     printf("Element Name: %s:\n", m_name.c_str());
     for(Setting s : m_settings)
     {
-        printf("    Name: %s    Val: %s\n", s.getName().c_str(), s.getValueStr().c_str());
+        printf("    ");
+        s.print();
     }
 }
+
+std::vector<Setting> Element::getSettings(void)
+{
+    return m_settings;
+}
+
+std::string Element::getName(void)
+{
+    return m_name;
+}
+
+bool Element::draw(SDL_Surface *s)
+{
+    if(m_hasImage) {
+        m_sprite.draw(s);
+    }
+    
+    return true;
+}
+

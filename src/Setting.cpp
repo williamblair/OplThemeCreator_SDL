@@ -21,6 +21,11 @@ bool Setting::parse(const std::string &str)
     /* Get the setting value */
     std::getline(ss, m_valueStr, '=');
     
+    /* Trim whitespace */
+    m_valueStr = std::regex_replace(m_valueStr, std::regex("^ +"), "");
+    m_valueStr = std::regex_replace(m_valueStr, std::regex("^\t+"), "");
+    m_name = std::regex_replace(m_name, std::regex("^\t+"), "");
+    
     /* See if we can parse an int out of it.
      * It might not work but that's ok */
     sscanf(m_valueStr.c_str(), "%d", &m_valueInt);
@@ -30,7 +35,7 @@ bool Setting::parse(const std::string &str)
 
 void Setting::print(void)
 {
-    printf("Name: %8s    Value: %8s\n", m_name.c_str(), m_valueStr.c_str());
+    printf("Name: %s Value: %s\n", m_name.c_str(), m_valueStr.c_str());
 }
 
 std::string Setting::getName(void){return m_name;}
