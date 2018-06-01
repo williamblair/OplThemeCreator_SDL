@@ -63,3 +63,18 @@ bool Element::draw(SDL_Surface *s)
     return true;
 }
 
+bool Element::setPos(int x, int y)
+{
+	m_sprite.setX(x);
+	m_sprite.setY(y);
+
+	return true;
+}
+
+bool Element::setPosCentered(int x, int y)
+{
+	m_sprite.setX(x - m_sprite.getW() / 2);
+	m_sprite.setY(y - m_sprite.getH() / 2);
+
+	return true;
+}

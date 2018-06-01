@@ -181,12 +181,37 @@ void applySettings(void)
                 /* Open the image */
                 for(Setting s : elementSettings)
                 {
+					/* The main background image */
                     if(s.getName() == "default") {
                         std::string image = themeDir+"/"+s.getValueStr()+".jpg";
                         elements.at(i).addImage(image);
                     }
                 }
             }
+
+			else if (elementSettings.at(0).getValueStr() == "MenuIcon")
+			{
+				/* The position of the menu icons */
+				int x = 0, y = 0;
+
+				/* The menu icon list - which device we're reading games from */
+				std::string image = themeDir + "/usb.png";
+				elements.at(i).addImage(image);
+
+				/* The menu icon - which device games are begin read from */
+				for (Setting s : elementSettings)
+				{
+					if (s.getName() == "x") {
+						x = s.getValueInt();
+					}
+					else if (s.getName() == "y") {
+						y = s.getValueInt();
+					}
+				}
+
+				/* Update the image position */
+				elements.at(i).setPosCentered(x, y);
+			}
         }
         
         /* If we're dealing with a info element */

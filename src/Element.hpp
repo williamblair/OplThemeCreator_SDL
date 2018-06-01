@@ -37,6 +37,13 @@ public:
     
     /* Draw the sprite if we have one */
     bool draw(SDL_Surface *s);
+
+	/* Set the position of the sprite */
+	bool setPos(int x, int y);
+
+	/* Set the position of the sprite with the given
+	 * x and y representing the center of the image */
+	bool setPosCentered(int x, int y);
     
 private:
     std::string m_name;
