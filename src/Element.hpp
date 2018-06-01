@@ -1,6 +1,7 @@
 // One of the 'Main' (e.g. main0, main1, ...) elements of the 
 // OPL theme, like image locations
 #include "Setting.hpp"
+#include "Sprite.hpp"
 
 #include <cstdio>
 #include <vector>
@@ -24,10 +25,26 @@ public:
     /* Print out the element to stdout */
     void print(void);
     
+    /* Return the settings list */
+    std::vector<Setting> getSettings(void);
+    
+    /* Return the element name */
+    std::string getName(void);
+    
+    /* Load an image from the given file into
+     * the sprite member */
+    bool addImage(const std::string &imageStr);
+    
+    /* Draw the sprite if we have one */
+    bool draw(SDL_Surface *s);
+    
 private:
     std::string m_name;
     
     std::vector<Setting> m_settings;
+    
+    bool m_hasImage;
+    Sprite m_sprite;
 };
 
 #endif

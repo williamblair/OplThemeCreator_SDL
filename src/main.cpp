@@ -71,6 +71,12 @@ void mainLoop(void)
         /* Clear the screen */
         d.clear();
         
+        /* Draw elements (if they have an image) */
+        for(int i=0; i<elements.size(); i++)
+        {
+            elements.at(i).draw(d.getSurface());
+        }
+        
         /* Draw some text */
         fontHandler.draw(d.getSurface());
         
@@ -134,7 +140,6 @@ void parseFile(const char *fileName)
     printf("Elements: \n--------\n");
     for(Element e : elements)
     {
-        printf("    ");
         e.print();
     }
     
@@ -147,6 +152,7 @@ void applySettings(void)
     fontHandler.setX(0); fontHandler.setY(0);
     fontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
     
+    /* Parse the global settings */
     for(Setting s : settings)
     {
         if(s.getName() == "bg_color")                     hBGColor(d, s);
@@ -159,6 +165,32 @@ void applySettings(void)
                 s.getName() == "ui_text_color"
         )                                                 hColorSetting(d, s);
         else if(s.getName() == "default_font")            hDefaultFont(d, s);
+    }
+    
+    /* Parse the elements */
+    for(int i=0; i<elements.size(); i++)
+    {
+        std::vector<Setting> elementSettings = elements.at(i).getSettings();
+        
+        /* If we're dealing with a main element */
+        if(elements.at(i).getName().find("main") != std::string::npos)
+        {
+            /* Assumes the first property is type */
+            if(elementSettings.at(0).getValueStr() == "Background")
+            {
+                /* Open the image */
+                for(Setting s : elementSettings)
+                {
+                    if(s.getName() == "default") {
+                        std::string image = themeDir+"/"+s.getValueStr()+".jpg";
+                        printf("Image str: %s\n", image.c_str());
+                        elements.at(i).addImage(image);
+                    }
+                }
+            }
+        }
+        
+        /* If we're dealing with a info element */
     }
     
     // DEBUG
