@@ -36,8 +36,11 @@ bool FontHandler::setMessage(const std::string &message)
     g = (m_messageColor & 0x00FF00) >> 8;
     b = (m_messageColor & 0x0000FF);
     
+	SDL_Color color;
+	color.r = r; color.g = g; color.b = b; color.a = 255;
+
     if(!m_messageSprite.loadMessage(
-        m_font, message.c_str(), (SDL_Color){r,g,b,255})) {
+        m_font, message.c_str(), color)) {
         return false;
     }
     
