@@ -183,7 +183,6 @@ void applySettings(void)
                 {
                     if(s.getName() == "default") {
                         std::string image = themeDir+"/"+s.getValueStr()+".jpg";
-                        printf("Image str: %s\n", image.c_str());
                         elements.at(i).addImage(image);
                     }
                 }
