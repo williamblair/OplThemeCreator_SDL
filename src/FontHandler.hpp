@@ -10,10 +10,13 @@
 #define FONT_HANDLER_H_INCLUDED
 
 /* Used in open() */
-const int FONT_SIZE = 12;
+/* According to 
+ * http://www.ps2-home.com/forum/viewtopic.php?t=1834
+ * the font size in OPL is 17 */
+const int FONT_SIZE = 17;
 
 /* Used to move down to the next line to draw */
-const int FONT_HEIGHT = 15;
+const int FONT_HEIGHT = 19;
 
 class FontHandler
 {
@@ -23,7 +26,8 @@ public:
     
     bool open(const std::string &fontStr);
     
-    bool addMessage(const std::string &message);
+    /* Optional position to override the default y increment, which is used by the games list */
+    bool addMessage(const std::string &message, int x = -999, int y = -999);
     
     bool setColor(Uint32 color);
     
@@ -33,7 +37,9 @@ public:
     bool draw(SDL_Surface *s);
 
 private:
+    
     TTF_Font *m_font;
+    
     /* So we can set the X and Y before actually loading the text,
      * and so we can draw a list of messages from top to bottom */
     int                   m_curX;

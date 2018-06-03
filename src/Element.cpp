@@ -1,7 +1,13 @@
 #include "Element.hpp"
 
 Element::Element(void) { m_hasImage = false; }
-Element::~Element(void) {}
+Element::~Element(void) 
+{
+    for(int i = 0; i < m_sprites.size(); i++)
+    {
+        delete m_sprites.at(i);
+    }
+}
 
 bool Element::parse(const std::string line)
 {
@@ -27,9 +33,13 @@ bool Element::addSetting(Setting setting)
 
 bool Element::addImage(const std::string &imageStr)
 {
-    if (!m_sprite.loadImage(imageStr.c_str())) {
+    m_sprites.push_back(new Sprite);
+    if(!m_sprites.back()->loadImage(imageStr.c_str())) {
+        delete m_sprites.back();
+        m_sprites.pop_back();
         return false;
     }
+    
     m_hasImage = true;
     return true;
 }
@@ -56,8 +66,10 @@ std::string Element::getName(void)
 
 bool Element::draw(SDL_Surface *s)
 {
-    if (m_hasImage) {
-        m_sprite.draw(s);
+    if (m_hasImage) 
+    {
+        for(int i = 0; i < m_sprites.size(); i++)
+            m_sprites.at(i)->draw(s);
     }
 
     return true;
@@ -65,16 +77,26 @@ bool Element::draw(SDL_Surface *s)
 
 bool Element::setPos(int x, int y)
 {
-    m_sprite.setX(x);
-    m_sprite.setY(y);
-
+    if(m_sprites.size() > 0)
+    {
+        /* Wrap the positions if they are negative */
+        if(x < 0) x = 640 + x;
+        if(y < 0) y = 480 + y;
+        
+        m_sprites.back()->setX(x);
+        m_sprites.back()->setY(y);
+    }
+    
     return true;
 }
 
 bool Element::setPosCentered(int x, int y)
 {
-    m_sprite.setX(x - m_sprite.getW() / 2);
-    m_sprite.setY(y - m_sprite.getH() / 2);
-
+    if(m_sprites.size() > 0)
+    {    
+        m_sprites.back()->setX(x - m_sprites.back()->getW() / 2);
+        m_sprites.back()->setY(y - m_sprites.back()->getH() / 2);
+    }
+    
     return true;
 }
