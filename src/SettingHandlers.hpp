@@ -8,7 +8,8 @@
 
 /* Defined in main.cpp */
 extern std::map<std::string, Uint32> settingColors;
-extern FontHandler fontHandler;
+extern FontHandler gamesListFontHandler;
+extern FontHandler hintTextFontHandler;
 extern std::string themeDir;
 
 #ifndef SETTING_HANDLERS_H_INCLUDED

@@ -10,7 +10,10 @@ FontHandler::FontHandler(void)
 
 FontHandler::~FontHandler(void)
 {
-    if(m_font) TTF_CloseFont(m_font);
+    if(m_font) {
+        TTF_CloseFont(m_font);
+        m_font = NULL;
+    }
 
     /* Free each sprite in the list */
     for (int i = 0; i < m_messageSprites.size(); i++)
@@ -35,7 +38,7 @@ bool FontHandler::open(const std::string &fontStr)
     return true;
 }
 
-bool FontHandler::addMessage(const std::string &message)
+bool FontHandler::addMessage(const std::string &message, int x, int y)
 {   
     /* Extract the values from the color to 
      * create a SDL color*/
@@ -44,22 +47,35 @@ bool FontHandler::addMessage(const std::string &message)
     g = (m_messageColor & 0x00FF00) >> 8;
     b = (m_messageColor & 0x0000FF);
     
-	SDL_Color color;
-	color.r = r; color.g = g; color.b = b; color.a = 255;
-
+    SDL_Color color;
+    color.r = r; color.g = g; color.b = b; color.a = 255;
+    
     m_messageSprites.push_back(new Sprite);
     if (!m_messageSprites.back()->loadMessage(
         m_font, message.c_str(), color
     )) {
         return false;
     }
+    
+    if(x != -999 && y != -999)
+    {
+        /* Wrap position if negative */
+        if(x < 0) x = 640 + x;
+        if(y < 0) y = 480 + y;
+        
+        m_messageSprites.back()->setX(x);
+        m_messageSprites.back()->setY(y);
+    }
+    else
+    {
+        /* Set current default x and y */
+        m_messageSprites.back()->setX(m_curX);
+        m_messageSprites.back()->setY(m_curY);
 
-    /* Set current default x and y */
-    m_messageSprites.back()->setX(m_curX);
-    m_messageSprites.back()->setY(m_curY);
-
-    /* increment the y position (move the next sprite below) */
-    m_curY += FONT_HEIGHT;
+        /* increment the y position (move the next sprite below) */
+        m_curY += FONT_HEIGHT;
+    }
+    
 
     return true;
 }

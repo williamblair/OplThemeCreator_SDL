@@ -51,7 +51,7 @@ private:
     std::vector<Setting> m_settings;
 
     bool m_hasImage;
-    Sprite m_sprite;
+    std::vector<Sprite *> m_sprites;
 };
 
 #endif

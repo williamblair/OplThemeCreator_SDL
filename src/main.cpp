@@ -18,7 +18,8 @@ void applySettings(void);
 
 Display d;
 Setting s;
-FontHandler fontHandler;
+FontHandler gamesListFontHandler;
+FontHandler hintTextFontHandler;
 
 std::vector<Setting> settings;
 std::vector<Element> elements;
@@ -33,8 +34,16 @@ std::vector<std::string> dummyItemsList = {
     "Shadow of the Colussus",
     "Okami"
 };
-//std::string dummyItemsList =
-//"Persona4\nShadow of the Colussus\nKingdomHearts\nOkami\nTony Hawk's Pro Skater";
+
+/* Hint messages for the HintText element */
+std::vector<std::string> hintTextList = {
+    "Menu",
+    "Run",
+    "Game Settings",
+    "Refresh",
+    "Rename",
+    "Delete"
+};
 
 /* Colors we're going to use to draw with
  * (besides BG Color, which is kept in
@@ -103,7 +112,8 @@ void mainLoop(void)
         if (curLoadingIcon >= loadingIcons.size()) curLoadingIcon = 0;
 
         /* Draw some text */
-        fontHandler.draw(d.getSurface());
+        gamesListFontHandler.draw(d.getSurface());
+        hintTextFontHandler.draw(d.getSurface());
 
         /* Update the screen */
         d.update();
@@ -174,8 +184,10 @@ void parseFile(const char *fileName)
 void applySettings(void)
 {
     /* Set some defaults first */
-    //fontHandler.setX(0,0); fontHandler.setY(0,0);
-    fontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
+    //gamesListFontHandler.setX(0,0); gamesListFontHandler.setY(0,0);
+    gamesListFontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
+    hintTextFontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
+    hintTextFontHandler.setX(0); hintTextFontHandler.setY(0);
 
     /* Parse the global settings */
     for (Setting s : settings)
@@ -252,8 +264,8 @@ void applySettings(void)
                     }
                 }
 
-                fontHandler.setX(x);
-                fontHandler.setY(y);
+                gamesListFontHandler.setX(x);
+                gamesListFontHandler.setY(y);
             }
 
             /* Unsupported at the moment: overlay_ulx... and all of those */
@@ -309,6 +321,39 @@ void applySettings(void)
                     loadingIcons.back()->setY(y);
                 }
             }
+            
+            else if(elementSettings.at(0).getValueStr() == "HintText")
+            {
+                int y = 0;
+                for(Setting s : elementSettings)
+                {
+                    if(s.getName() == "y") {
+                        y = s.getValueInt();
+                    }
+                }
+                
+                /* Load each hint text image */
+                elements.at(i).addImage(themeDir+"/start.png");
+                elements.at(i).setPos(0, y);
+                elements.at(i).addImage(themeDir+"/cross.png");
+                elements.at(i).setPos(100, y);
+                elements.at(i).addImage(themeDir+"/triangle.png");
+                elements.at(i).setPos(170, y);
+                elements.at(i).addImage(themeDir+"/select.png");
+                elements.at(i).setPos(320, y);
+                elements.at(i).addImage(themeDir+"/circle.png");
+                elements.at(i).setPos(440, y);
+                elements.at(i).addImage(themeDir+"/square.png");
+                elements.at(i).setPos(545, y);
+                
+                /* Load each hint text */
+                hintTextFontHandler.addMessage(hintTextList.at(0), 40, y);
+                hintTextFontHandler.addMessage(hintTextList.at(1), 125, y);
+                hintTextFontHandler.addMessage(hintTextList.at(2), 190, y);
+                hintTextFontHandler.addMessage(hintTextList.at(3), 360, y);
+                hintTextFontHandler.addMessage(hintTextList.at(4), 460, y);
+                hintTextFontHandler.addMessage(hintTextList.at(5), 570, y);
+            }
         }
 
         /* If we're dealing with a info element */
@@ -324,7 +369,7 @@ void applySettings(void)
 
     for (std::string s : dummyItemsList)
     {
-        fontHandler.addMessage(s);
+        gamesListFontHandler.addMessage(s);
     }
 }
 
