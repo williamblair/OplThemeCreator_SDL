@@ -23,6 +23,16 @@ FontHandler fontHandler;
 std::vector<Setting> settings;
 std::vector<Element> elements;
 
+/* Placeholder text for the items list */
+std::vector<std::string> dummyItemsList = {
+    "Persona 4",
+    "Kingdom Hearts",
+    "Shadow of the Colussus",
+    "Okami"
+};
+//std::string dummyItemsList =
+//"Persona4\nShadow of the Colussus\nKingdomHearts\nOkami\nTony Hawk's Pro Skater";
+
 /* Colors we're going to use to draw with
  * (besides BG Color, which is kept in
  * Display) */
@@ -149,7 +159,7 @@ void parseFile(const char *fileName)
 void applySettings(void)
 {
     /* Set some defaults first */
-    fontHandler.setX(0); fontHandler.setY(0);
+    //fontHandler.setX(0,0); fontHandler.setY(0,0);
     fontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
 
     /* Parse the global settings */
@@ -212,6 +222,24 @@ void applySettings(void)
                 /* Update the image position */
                 elements.at(i).setPosCentered(x, y);
             }
+
+            else if (elementSettings.at(0).getValueStr() == "ItemsList")
+            {
+                /* The x and y pos of the Games list */
+                int x = 0, y = 0;
+                for (Setting s : elementSettings)
+                {
+                    if (s.getName() == "x") {
+                        x = s.getValueInt();
+                    }
+                    else if (s.getName() == "y") {
+                        y = s.getValueInt();
+                    }
+                }
+
+                fontHandler.setX(x);
+                fontHandler.setY(y);
+            }
         }
 
         /* If we're dealing with a info element */
@@ -225,5 +253,9 @@ void applySettings(void)
         printf("%s: 0x%X\n", it->first.c_str(), it->second);
     }
 
+    for (std::string s : dummyItemsList)
+    {
+        fontHandler.addMessage(s);
+    }
 }
 
