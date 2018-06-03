@@ -1,4 +1,5 @@
 # Makefile for test program for windows
+# note - requires GNU gcc/g++ 4.9 or later due to <regex> unimplemented before that
 CC = mingw32-g++
 CFLAGS = -std=gnu++11 -g
 

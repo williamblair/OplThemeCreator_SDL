@@ -1,4 +1,5 @@
 # Makefile for test program for linux
+# note - requires GNU gcc/g++ 4.9 or later due to <regex> unimplemented before that
 CC = g++
 
 # Make sure to remove -g when not debugging!
