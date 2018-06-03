@@ -240,6 +240,34 @@ void applySettings(void)
                 fontHandler.setX(x);
                 fontHandler.setY(y);
             }
+
+            /* Unsupported at the moment: overlay_ulx... and all of those */
+            else if (elementSettings.at(0).getValueStr() == "ItemCover")
+            {
+                /* The x and y pos of the image to go around the game cover */
+                int x = 0, y = 0;
+
+                /* The name of the item cover image (assumes.png for now...) */
+                std::string coverImage = "";
+
+                for (Setting s : elementSettings)
+                {
+                    if (s.getName() == "x") {
+                        x = s.getValueInt();
+                    }
+                    else if (s.getName() == "y") {
+                        y = s.getValueInt();
+                    }
+
+                    else if (s.getName() == "overlay") {
+                        coverImage = s.getValueStr();
+                    }
+                }
+
+                std::string image = themeDir + "/" + coverImage + ".png";
+                elements.at(i).addImage(image);
+                elements.at(i).setPosCentered(x, y);
+            }
         }
 
         /* If we're dealing with a info element */
