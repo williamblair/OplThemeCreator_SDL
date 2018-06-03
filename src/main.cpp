@@ -23,6 +23,9 @@ FontHandler fontHandler;
 std::vector<Setting> settings;
 std::vector<Element> elements;
 
+/* Put these separate so we can animate them */
+std::vector<Sprite *> loadingIcons;
+
 /* Placeholder text for the items list */
 std::vector<std::string> dummyItemsList = {
     "Persona 4",
@@ -62,6 +65,12 @@ int main(int argc, char *argv[])
 
     mainLoop();
 
+    /* Free our loading icon sprites */
+    for (int i = 0; i < loadingIcons.size(); i++)
+    {
+        delete loadingIcons.at(i);
+    }
+
     return 0;
 }
 
@@ -69,6 +78,8 @@ void mainLoop(void)
 {
     SDL_Event event;
     const float FPS = 30.0f;
+
+    int curLoadingIcon = 0;
 
     bool quit = false;
     while (!quit)
@@ -86,6 +97,10 @@ void mainLoop(void)
         {
             elements.at(i).draw(d.getSurface());
         }
+
+        /* Animate the loading icon */
+        loadingIcons.at(curLoadingIcon++)->draw(d.getSurface());
+        if (curLoadingIcon >= loadingIcons.size()) curLoadingIcon = 0;
 
         /* Draw some text */
         fontHandler.draw(d.getSurface());
@@ -267,6 +282,32 @@ void applySettings(void)
                 std::string image = themeDir + "/" + coverImage + ".png";
                 elements.at(i).addImage(image);
                 elements.at(i).setPosCentered(x, y);
+            }
+
+            else if (elementSettings.at(0).getValueStr() == "LoadingIcon")
+            {
+                int x = 0, y = 0;
+                for (Setting s : elementSettings) 
+                {
+                    if (s.getName() == "x") {
+                        x = s.getValueInt();
+                    }
+                    else if (s.getName() == "y") {
+                        y = s.getValueInt();
+                    }
+                }
+
+                /* Instead of putting these images in the element, 
+                 * they're stored in their own vector so we can animate them */
+                for (int i = 0; i < 8; i++)
+                {
+                    std::stringstream image;
+                    image << themeDir << "/load" << i  << ".png";
+                    loadingIcons.push_back(new Sprite);
+                    loadingIcons.back()->loadImage(image.str().c_str());
+                    loadingIcons.back()->setX(x);
+                    loadingIcons.back()->setY(y);
+                }
             }
         }
 
