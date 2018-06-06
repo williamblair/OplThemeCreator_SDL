@@ -75,6 +75,17 @@ bool Element::draw(SDL_Surface *s)
     return true;
 }
 
+bool Element::setSize(int width, int height)
+{
+    if (m_sprites.size() > 0)
+    {
+        m_sprites.back()->setW(width);
+        m_sprites.back()->setH(height);
+    }
+
+    return true;
+}
+
 bool Element::setPos(int x, int y)
 {
     if(m_sprites.size() > 0)

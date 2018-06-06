@@ -184,7 +184,6 @@ void parseFile(const char *fileName)
 void applySettings(void)
 {
     /* Set some defaults first */
-    //gamesListFontHandler.setX(0,0); gamesListFontHandler.setY(0,0);
     gamesListFontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
     hintTextFontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
     hintTextFontHandler.setX(0); hintTextFontHandler.setY(0);
@@ -271,8 +270,18 @@ void applySettings(void)
             /* Unsupported at the moment: overlay_ulx... and all of those */
             else if (elementSettings.at(0).getValueStr() == "ItemCover")
             {
-                /* The x and y pos of the image to go around the game cover */
+                /* The x and y pos of the game cover */
                 int x = 0, y = 0;
+
+                /* The default size of the game cover */
+                int coverWidth = 140, coverHeight = 200;
+
+                /* The position of the game cover overlay, which will decide
+                 * the new size of the cover image */
+                int ulx = 0, uly = 0, urx = 0, ury = 0, llx = 0, lly = 0, lrx = 0, lry = 0;
+
+                /* The new size of the cover image based on the above coordinates */
+                int newCoverWidth = 1, newCoverHeight = 1;
 
                 /* The name of the item cover image (assumes.png for now...) */
                 std::string coverImage = "";
@@ -285,15 +294,63 @@ void applySettings(void)
                     else if (s.getName() == "y") {
                         y = s.getValueInt();
                     }
+                    
+                    else if (s.getName() == "overlay_ulx") {
+                        ulx = s.getValueInt();
+                    }
+
+                    else if (s.getName() == "overlay_uly") {
+                        uly = s.getValueInt();
+                    }
+
+                    else if (s.getName() == "overlay_urx") {
+                        urx = s.getValueInt();
+                    }
+
+                    else if (s.getName() == "overlay_ury") {
+                        ury = s.getValueInt();
+                    }
+
+                    else if (s.getName() == "overlay_llx") {
+                        llx = s.getValueInt();
+                    }
+
+                    else if (s.getName() == "overlay_lly") {
+                        lly = s.getValueInt();
+                    }
+
+                    else if (s.getName() == "overlay_lrx") {
+                        lrx = s.getValueInt();
+                    }
+
+                    else if (s.getName() == "overlay_lry") {
+                        lry = s.getValueInt();
+                    }
 
                     else if (s.getName() == "overlay") {
                         coverImage = s.getValueStr();
                     }
                 }
 
-                std::string image = themeDir + "/" + coverImage + ".png";
+                /* A default cover image */
+                std::string image = "../images/p4cover.png";
                 elements.at(i).addImage(image);
                 elements.at(i).setPosCentered(x, y);
+
+                // TODO - fix Sprite class so resizing works!
+                /* Calculate and resize the cover image */
+                newCoverWidth = urx - ulx;
+                newCoverHeight = uly - lly;
+                elements.at(i).setSize(newCoverWidth, newCoverHeight);
+
+                /* Load, calculate the upper left pos of the cover,
+                 * and set it */
+                image = themeDir + "/" + coverImage + ".png";
+                elements.at(i).addImage(image);
+                elements.at(i).setPos((x-(coverWidth/2))-ulx, (y-(coverHeight/2))-uly);
+
+                
+                
             }
 
             else if (elementSettings.at(0).getValueStr() == "LoadingIcon")

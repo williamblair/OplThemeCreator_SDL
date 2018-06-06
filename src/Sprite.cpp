@@ -52,6 +52,10 @@ void Sprite::draw(SDL_Surface *screenSurface)
 void Sprite::setX(int x){m_Rect.x = x;}
 void Sprite::setY(int y){m_Rect.y = y;}
 
+// TODO - actually make this worki :P
+void Sprite::setW(int w){m_Rect.w = w;}
+void Sprite::setH(int h){m_Rect.h = h;}
+
 int Sprite::getX(void){return m_Rect.x;}
 int Sprite::getY(void){return m_Rect.y;}
 int Sprite::getW(void){return m_Rect.w;}

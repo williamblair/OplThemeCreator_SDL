@@ -38,6 +38,9 @@ public:
     /* Draw the sprite if we have one */
     bool draw(SDL_Surface *s);
 
+    /* Set the width/height of the image */
+    bool setSize(int width, int height);
+
     /* Set the position of the sprite */
     bool setPos(int x, int y);
 
