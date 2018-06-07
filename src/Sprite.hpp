@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 
 #include <cstdio>
+#include <string>
 
 #ifndef SPRITE_H_INCLUDED
 #define SPRITE_H_INCLUDED
@@ -30,8 +31,11 @@ public:
     int getY(void);
     int getW(void);
     int getH(void);
+
+    std::string getMessage(void);
     
 private:
+    std::string  m_message;
     SDL_Surface *m_Surface = NULL;
     SDL_Rect     m_Rect;
 };

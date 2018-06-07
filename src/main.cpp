@@ -35,6 +35,9 @@ std::vector<std::string> dummyItemsList = {
     "Okami"
 };
 
+/* The index of the current selected game */
+int selectedGameIndex = 0;
+
 /* Hint messages for the HintText element */
 std::vector<std::string> hintTextList = {
     "Menu",
@@ -96,6 +99,30 @@ void mainLoop(void)
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT) quit = true;
+
+            else if (event.type == SDL_KEYUP)
+            {
+                if (event.key.keysym.sym == SDLK_UP)
+                {
+                    int prevSelectedItem = selectedGameIndex;
+                    selectedGameIndex--;
+                    if (selectedGameIndex < 0) selectedGameIndex = dummyItemsList.size() - 1;
+
+                    /* Reset the previously selected items color and update the new one */
+                    gamesListFontHandler.setColor(settingColors["text_color"], prevSelectedItem);
+                    gamesListFontHandler.setColor(settingColors["sel_text_color"], selectedGameIndex);
+                }
+                else if (event.key.keysym.sym == SDLK_DOWN)
+                {
+                    int prevSelectedItem = selectedGameIndex;
+                    selectedGameIndex++;
+                    if (selectedGameIndex > dummyItemsList.size() - 1) selectedGameIndex = 0;
+
+                    /* Reset the previously selected items color and update the new one */
+                    gamesListFontHandler.setColor(settingColors["text_color"], prevSelectedItem);
+                    gamesListFontHandler.setColor(settingColors["sel_text_color"], selectedGameIndex);
+                }
+            }
         }
 
         /* Clear the screen */
@@ -429,7 +456,11 @@ void applySettings(void)
 
     for (std::string s : dummyItemsList)
     {
+        gamesListFontHandler.setColor(settingColors["text_color"]);
         gamesListFontHandler.addMessage(s);
     }
+
+    /* Set the current selected text color */
+    gamesListFontHandler.setColor(settingColors["sel_text_color"], selectedGameIndex);
 }
 

@@ -90,9 +90,30 @@ bool FontHandler::draw(SDL_Surface *s)
     return true;
 }
 
-bool FontHandler::setColor(Uint32 color)
+bool FontHandler::setColor(Uint32 color, int index)
 {
-    m_messageColor = color;
+    if(index == -1)
+        m_messageColor = color;
+    else
+    {
+        /* Extract the values from the color to
+        * create a SDL color*/
+        Uint8 r, g, b;
+        r = (color & 0xFF0000) >> 16;
+        g = (color & 0x00FF00) >> 8;
+        b = (color & 0x0000FF);
+
+        SDL_Color color;
+        color.r = r; color.g = g; color.b = b;
+
+        std::string curMessage = m_messageSprites.at(index)->getMessage();
+        if (!m_messageSprites.at(index)->loadMessage(
+            m_font, curMessage.c_str(), color
+        )) {
+            return false;
+        }
+    }
+
     return true;
 }
 
