@@ -333,7 +333,7 @@ void applySettings(void)
                 }
 
                 /* A default cover image */
-                std::string image = "../images/p4cover.png";
+                std::string image = "images/p4cover.png";
                 elements.at(i).addImage(image);
                 elements.at(i).setPosCentered(x, y);
 
