@@ -1,4 +1,10 @@
 build/*.o
+*.o
+*.txt
+OplThemeCreator
+*.mk
+*.project
+*.d
 *.exe
 *.dll
 main
