@@ -26,10 +26,18 @@ bool Sprite::loadImage(const char *imgSource){
 
 bool Sprite::loadMessage(TTF_Font *font, const char *message, SDL_Color fg){
     bool status = true;
+    m_message = std::string(message);
     if(font == NULL){
         fprintf(stderr, "Sprite: given NULL TTF_Font!\n");
         status = false;
     }
+
+    /* Free the rendered surface if it's been rendered before */
+    if (m_Surface) {
+        SDL_FreeSurface(m_Surface);
+        m_Surface = NULL;
+    }
+
     m_Surface = TTF_RenderText_Solid(font, message, fg);
     if(!m_Surface){
         fprintf(stderr, "Sprite: failed to render font: %s\n", TTF_GetError());
@@ -60,3 +68,5 @@ int Sprite::getX(void){return m_Rect.x;}
 int Sprite::getY(void){return m_Rect.y;}
 int Sprite::getW(void){return m_Rect.w;}
 int Sprite::getH(void){return m_Rect.h;}
+
+std::string Sprite::getMessage(void) { return m_message; }

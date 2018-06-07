@@ -29,7 +29,7 @@ public:
     /* Optional position to override the default y increment, which is used by the games list */
     bool addMessage(const std::string &message, int x = -999, int y = -999);
     
-    bool setColor(Uint32 color);
+    bool setColor(Uint32 color, int index = -1);
     
     bool setX(int x);
     bool setY(int y);
