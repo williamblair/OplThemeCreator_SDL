@@ -358,11 +358,14 @@ void applySettings(void)
                 int x = 0, y = 0;
                 for (Setting s : elementSettings) 
                 {
+                    /* Wrap values if needed */
                     if (s.getName() == "x") {
                         x = s.getValueInt();
+                        if(x < 0) x = 640 + x;
                     }
                     else if (s.getName() == "y") {
                         y = s.getValueInt();
+                        if(y < 0) y = 480 + y;
                     }
                 }
 
