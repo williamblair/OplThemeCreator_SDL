@@ -36,7 +36,7 @@ public:
     bool addImage(const std::string &imageStr);
 
     /* Draw the sprite if we have one */
-    bool draw(SDL_Surface *s);
+    bool draw(SDL_Surface *s, int index = -1);
 
     /* Set the width/height of the image */
     bool setSize(int width, int height);

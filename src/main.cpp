@@ -27,6 +27,17 @@ std::vector<Element> elements;
 /* Put these separate so we can animate them */
 std::vector<Sprite *> loadingIcons;
 
+/* Image names for each game location (Hard Drive, USB, Ethernet, etc */
+std::vector<std::string> menuIconList = {
+    "usb.png",
+    "eth.png",
+    "hdd.png",
+    "app.png",
+};
+
+/* The index of the current selected menu item */
+int selectedMenuIndex = 0;
+
 /* Placeholder text for the items list */
 std::vector<std::string> dummyItemsList = {
     "Persona 4",
@@ -122,6 +133,18 @@ void mainLoop(void)
                     gamesListFontHandler.setColor(settingColors["text_color"], prevSelectedItem);
                     gamesListFontHandler.setColor(settingColors["sel_text_color"], selectedGameIndex);
                 }
+
+                else if (event.key.keysym.sym == SDLK_LEFT) 
+                {
+                    selectedMenuIndex--;
+                    if (selectedMenuIndex < 0) selectedMenuIndex = menuIconList.size() - 1;
+                }
+
+                else if (event.key.keysym.sym == SDLK_RIGHT)
+                {
+                    selectedMenuIndex++;
+                    if (selectedMenuIndex > menuIconList.size() - 1) selectedMenuIndex = 0;
+                }
             }
         }
 
@@ -131,7 +154,12 @@ void mainLoop(void)
         /* Draw elements (if they have an image) */
         for (int i = 0; i < elements.size(); i++)
         {
-            elements.at(i).draw(d.getSurface());
+            if (elements.at(i).getSettings().at(0).getValueStr() == "MenuIcon") {
+                elements.at(i).draw(d.getSurface(), selectedMenuIndex);
+            }
+            else {
+                elements.at(i).draw(d.getSurface());
+            }
         }
 
         /* Animate the loading icon */
@@ -257,10 +285,6 @@ void applySettings(void)
                 /* The position of the menu icons */
                 int x = 0, y = 0;
 
-                /* The menu icon list - which device we're reading games from */
-                std::string image = themeDir + "/usb.png";
-                elements.at(i).addImage(image);
-
                 /* The menu icon - which device games are begin read from */
                 for (Setting s : elementSettings)
                 {
@@ -272,8 +296,17 @@ void applySettings(void)
                     }
                 }
 
-                /* Update the image position */
-                elements.at(i).setPosCentered(x, y);
+                /* Load each menu icon image */
+                for (int j = 0; j < menuIconList.size(); j++)
+                {
+                    /* The menu icon list - which device we're reading games from */
+                    std::string image = themeDir + "/" + menuIconList.at(j);
+                    elements.at(i).addImage(image);
+
+                    /* Update the image position */
+                    elements.at(i).setPosCentered(x, y);
+                }
+                
             }
 
             else if (elementSettings.at(0).getValueStr() == "ItemsList")

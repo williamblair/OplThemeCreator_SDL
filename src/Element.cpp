@@ -64,12 +64,17 @@ std::string Element::getName(void)
     return m_name;
 }
 
-bool Element::draw(SDL_Surface *s)
+bool Element::draw(SDL_Surface *s, int index)
 {
     if (m_hasImage) 
     {
-        for(int i = 0; i < m_sprites.size(); i++)
-            m_sprites.at(i)->draw(s);
+        if (index != -1) {
+            m_sprites.at(index)->draw(s);
+        }
+        else {
+            for (int i = 0; i < m_sprites.size(); i++)
+                m_sprites.at(i)->draw(s);
+        }
     }
 
     return true;
