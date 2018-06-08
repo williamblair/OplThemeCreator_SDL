@@ -408,9 +408,6 @@ void applySettings(void)
                 image = themeDir + "/" + coverImage + ".png";
                 elements.at(i).addImage(image);
                 elements.at(i).setPos((x-(coverWidth/2))-ulx, (y-(coverHeight/2))-uly);
-
-                
-                
             }
 
             else if (elementSettings.at(0).getValueStr() == "LoadingIcon")
