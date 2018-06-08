@@ -467,6 +467,7 @@ void applySettings(void)
                 elements.at(i).setPos(545, y);
                 
                 /* Load each hint text */
+                hintTextFontHandler.setColor(settingColors["hint_text_color"]);
                 hintTextFontHandler.addMessage(hintTextList.at(0), 40, y);
                 hintTextFontHandler.addMessage(hintTextList.at(1), 125, y);
                 hintTextFontHandler.addMessage(hintTextList.at(2), 190, y);
