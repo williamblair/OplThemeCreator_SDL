@@ -400,7 +400,7 @@ void applySettings(void)
                 // TODO - fix Sprite class so resizing works!
                 /* Calculate and resize the cover image */
                 newCoverWidth = urx - ulx;
-                newCoverHeight = uly - lly;
+                newCoverHeight = lly - uly;
                 elements.at(i).setSize(newCoverWidth, newCoverHeight);
 
                 /* Load, calculate the upper left pos of the cover,

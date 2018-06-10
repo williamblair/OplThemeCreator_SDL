@@ -38,6 +38,8 @@ private:
     std::string  m_message;
     SDL_Surface *m_Surface = NULL;
     SDL_Rect     m_Rect;
+
+    bool resizeSurface(int newWidth, int newHeight);
 };
 
 #endif
