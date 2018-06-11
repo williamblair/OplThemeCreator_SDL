@@ -13,10 +13,14 @@ GuisanWindow::GuisanWindow(void)
     m_Font  = NULL;
     m_Top   = NULL;
     m_Label = NULL;
+    
+    m_TextInput = NULL;
 }
 
 GuisanWindow::~GuisanWindow(void)
 {
+    if (m_TextInput) { delete m_TextInput; m_TextInput = NULL; }
+    
     if (m_Label) { delete m_Label; m_Label = NULL; }
     if (m_Font) { delete m_Font; m_Font = NULL; }
     if (m_Top) { delete m_Top; m_Top = NULL; }
@@ -76,6 +80,10 @@ bool GuisanWindow::init(void)
     m_Label = new gcn::Label("Hello World!");
     m_Label->setPosition(280, 220);
     m_Top->add(m_Label);
+    
+    /* Test ... */
+    m_TextInput = new gcn::TextField("Text field");
+    m_Top->add(m_TextInput, 10, 10);
 
     return true;
 }
@@ -87,5 +95,12 @@ bool GuisanWindow::update(void)
 
     SDL_UpdateWindowSurface(m_Window);
 
+    return true;
+}
+
+bool GuisanWindow::sendEvents(SDL_Event *event)
+{
+    m_Input->pushInput(*event);
+    
     return true;
 }

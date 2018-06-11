@@ -125,7 +125,7 @@ void mainLoop(void)
                 if (event.window.event == SDL_WINDOWEVENT_CLOSE)
                     quit = true;
             }
-
+            
             else if (event.type == SDL_KEYUP)
             {
                 if (event.key.keysym.sym == SDLK_UP)
@@ -162,6 +162,9 @@ void mainLoop(void)
                 }
             }
         }
+        
+        /* Send remaining SDL events to guisan */
+        guisanWindow.sendEvents(&event);
 
         /* Clear the screen */
         d.clear();

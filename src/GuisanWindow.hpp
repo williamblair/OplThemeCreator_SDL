@@ -20,6 +20,8 @@ public:
     bool init(void);
 
     bool update(void);
+    
+    bool sendEvents(SDL_Event *event);
 
 private:
 
@@ -38,6 +40,10 @@ private:
     gcn::Container *m_Top;
     gcn::ImageFont *m_Font;
     gcn::Label     *m_Label;
+    
+    /* Test input */
+    //textField = new gcn::TextField("Text field");
+    gcn::TextField *m_TextInput;
 };
 
 #endif
