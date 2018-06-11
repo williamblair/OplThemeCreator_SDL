@@ -4,6 +4,7 @@
 #include "Element.hpp"
 #include "SettingHandlers.hpp"
 #include "FontHandler.hpp"
+#include "GuisanWindow.hpp"
 
 #include <cstdlib>
 #include <cstdio>
@@ -20,6 +21,8 @@ Display d;
 Setting s;
 FontHandler gamesListFontHandler;
 FontHandler hintTextFontHandler;
+
+GuisanWindow guisanWindow;
 
 std::vector<Setting> settings;
 std::vector<Element> elements;
@@ -84,6 +87,11 @@ int main(int argc, char *argv[])
         exit(-1);
     }
 
+    /* GuisanWindow must be init AFTER SDL is init */
+    if (!guisanWindow.init()) {
+        exit(-1);
+    }
+
     applySettings();
 
     mainLoop();
@@ -110,6 +118,13 @@ void mainLoop(void)
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT) quit = true;
+
+            /* X out either window */
+            else if (event.type == SDL_WINDOWEVENT)
+            {
+                if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+                    quit = true;
+            }
 
             else if (event.type == SDL_KEYUP)
             {
@@ -172,7 +187,14 @@ void mainLoop(void)
 
         /* Update the screen */
         d.update();
+
+        /* Update the gui window */
+        guisanWindow.update();
     }
+
+    /* Letting the deconstructor run when it normally would causes
+     * a list iterator not dereferencable error */
+    guisanWindow.~GuisanWindow();
 }
 
 void parseFile(const char *fileName)
