@@ -17,16 +17,16 @@ GuisanWindow::GuisanWindow(void)
 
 GuisanWindow::~GuisanWindow(void)
 {
-    if (m_Input)       delete m_Input;
-    if (m_Graphics)    delete m_Graphics;
-    if (m_ImageLoader) delete m_ImageLoader;
+    if (m_Label) { delete m_Label; m_Label = NULL; }
+    if (m_Font) { delete m_Font; m_Font = NULL; }
+    if (m_Top) { delete m_Top; m_Top = NULL; }
+    if (m_Gui) { delete m_Gui; m_Gui = NULL; }
 
-    if (m_Gui)   delete m_Gui;
-    if (m_Font)  delete m_Font;
-    if (m_Top)   delete m_Top;
-    if (m_Label) delete m_Label;
-
-    if (m_Window) SDL_DestroyWindow(m_Window);
+    if (m_Input) { delete m_Input; m_Input = NULL; }
+    if (m_Graphics) { delete m_Graphics; m_Graphics = NULL; }
+    if (m_ImageLoader) { delete m_ImageLoader; m_ImageLoader = NULL; }
+    
+    if (m_Window) { SDL_DestroyWindow(m_Window); m_Window = NULL; }
 }
 
 bool GuisanWindow::init(void)

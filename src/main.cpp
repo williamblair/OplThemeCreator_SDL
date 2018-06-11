@@ -191,6 +191,10 @@ void mainLoop(void)
         /* Update the gui window */
         guisanWindow.update();
     }
+
+    /* Letting the deconstructor run when it normally would causes
+     * a list iterator not dereferencable error */
+    guisanWindow.~GuisanWindow();
 }
 
 void parseFile(const char *fileName)
