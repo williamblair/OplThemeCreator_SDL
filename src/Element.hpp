@@ -46,7 +46,12 @@ public:
 
     /* Set the position of the sprite with the given
      * x and y representing the center of the image */
-    bool setPosCentered(int x, int y);
+    bool setPosCentered(int x, int y, int index = -1);
+
+    /* Get the position of the element, compensating 
+     * for the centering of the element */
+    int getXCentered(int index);
+    int getYCentered(int index);
 
 private:
     std::string m_name;

@@ -112,6 +112,11 @@ void mainLoop(void)
 
     int curLoadingIcon = 0;
 
+    /* So we can tell which window the event is coming from */
+    int displayWindowID = d.getWindowId();
+    int guisanWindowID = guisanWindow.getWindowId();
+    int currentWindowID = 0;
+
     bool quit = false;
     while (!quit)
     {
@@ -122,11 +127,16 @@ void mainLoop(void)
             /* X out either window */
             else if (event.type == SDL_WINDOWEVENT)
             {
+                /* Update the current window ID */
+                currentWindowID = event.window.windowID;
+
                 if (event.window.event == SDL_WINDOWEVENT_CLOSE)
                     quit = true;
             }
-
-            else if (event.type == SDL_KEYUP)
+            
+            /* We only want to check the key events if we're working
+             * in the theme window */
+            else if (event.type == SDL_KEYUP && currentWindowID == displayWindowID)
             {
                 if (event.key.keysym.sym == SDLK_UP)
                 {
@@ -161,7 +171,12 @@ void mainLoop(void)
                     if (selectedMenuIndex > menuIconList.size() - 1) selectedMenuIndex = 0;
                 }
             }
+
+            /* Send remaining SDL events to guisan if the window is active */
+            else if(currentWindowID == guisanWindowID)
+                guisanWindow.sendEvents(&event);
         }
+        
 
         /* Clear the screen */
         d.clear();
