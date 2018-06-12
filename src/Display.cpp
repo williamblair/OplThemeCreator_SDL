@@ -102,3 +102,10 @@ void Display::update(void)
     /* hardcoded 30fps at the moment... */
     SDL_Delay(1000.0f/30.0f);
 }
+
+
+int Display::getWindowId(void)
+{
+    return (m_window ? SDL_GetWindowID(m_window) : -1);
+}
+

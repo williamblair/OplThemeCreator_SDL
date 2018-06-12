@@ -83,6 +83,8 @@ bool GuisanWindow::init(void)
     
     /* Test ... */
     m_TextInput = new gcn::TextField("Text field");
+    m_TextInput->setActionEventId(INPUT_ID);
+    m_TextInput->addActionListener(new TextFieldActionListener());
     m_Top->add(m_TextInput, 10, 10);
 
     return true;
@@ -104,3 +106,10 @@ bool GuisanWindow::sendEvents(SDL_Event *event)
     
     return true;
 }
+
+
+int GuisanWindow::getWindowId(void)
+{
+    return (m_Window ? SDL_GetWindowID(m_Window) : -1);
+}
+

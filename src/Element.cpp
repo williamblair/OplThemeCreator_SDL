@@ -106,9 +106,15 @@ bool Element::setPos(int x, int y)
     return true;
 }
 
-bool Element::setPosCentered(int x, int y)
+bool Element::setPosCentered(int x, int y, int index)
 {
-    if(m_sprites.size() > 0)
+    if(index != -1)
+    {
+        m_sprites.at(index)->setX(x - m_sprites.at(index)->getW() / 2);
+        m_sprites.at(index)->setY(y - m_sprites.at(index)->getH() / 2);
+    }
+
+    else if(m_sprites.size() > 0)
     {    
         m_sprites.back()->setX(x - m_sprites.back()->getW() / 2);
         m_sprites.back()->setY(y - m_sprites.back()->getH() / 2);
@@ -116,3 +122,16 @@ bool Element::setPosCentered(int x, int y)
     
     return true;
 }
+
+int Element::getXCentered(int index)
+{
+    return m_sprites.at(index)->getX() +
+        m_sprites.at(index)->getW()/2;
+}
+
+int Element::getYCentered(int index)
+{
+    return m_sprites.at(index)->getY() + 
+        m_sprites.at(index)->getH()/2;
+}
+

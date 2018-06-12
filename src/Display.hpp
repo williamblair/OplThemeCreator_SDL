@@ -29,6 +29,9 @@ class Display
         
         /* Returns the window surface */
         SDL_Surface *getSurface(void);
+
+        /* Returns the SDL id of the window */
+        int getWindowId(void);
     
     private:
         SDL_Window *m_window;
