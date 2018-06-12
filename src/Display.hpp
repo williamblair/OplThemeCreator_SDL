@@ -39,7 +39,7 @@ class Display
         
         Uint32 m_bgColor;
         
-        // For SDL_Image, which doesn't have a tracker for this
+        // For SDL_Image, which doesnt have a tracker for this
         bool imageWasInit;
     
 };
