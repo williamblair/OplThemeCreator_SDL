@@ -31,10 +31,12 @@ public:
     
     bool setColor(Uint32 color, int index = -1);
     
-    bool setX(int x);
-    bool setY(int y);
+    bool setX(int x, int index = -1);
+    bool setY(int y, int index = -1);
     
     bool draw(SDL_Surface *s);
+
+    int getNumMessages(void);
 
 private:
     

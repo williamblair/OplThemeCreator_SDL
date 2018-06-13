@@ -92,9 +92,8 @@ bool FontHandler::draw(SDL_Surface *s)
 
 bool FontHandler::setColor(Uint32 color, int index)
 {
-    if(index == -1)
-        m_messageColor = color;
-    else
+    m_messageColor = color;
+    if(index != -1)
     {
         /* Extract the values from the color to
         * create a SDL color*/
@@ -117,17 +116,29 @@ bool FontHandler::setColor(Uint32 color, int index)
     return true;
 }
 
-bool FontHandler::setX(int x)
+bool FontHandler::setX(int x, int index)
 {
-    m_curX = x;
+    if(index == -1)
+        m_curX = x;
+    else
+        m_messageSprites.at(index)->setX(x);
 
     return true;
 }
 
-bool FontHandler::setY(int y)
+bool FontHandler::setY(int y, int index)
 {
-    m_curY = y;
+    if(index == -1)
+        m_curY = y;
+    else
+    {
+        m_messageSprites.at(index)->setY(y);
+    }
     
     return true;
 }
 
+int FontHandler::getNumMessages(void)
+{
+    return m_messageSprites.size();
+}

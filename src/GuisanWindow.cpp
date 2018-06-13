@@ -14,12 +14,18 @@ GuisanWindow::GuisanWindow(void)
     m_Top   = NULL;
     m_Label = NULL;
     
-    m_TextInput = NULL;
+    m_MenuIconInput  = NULL;
+    m_ItemsListInput = NULL;
+
+    m_TFActionListener = NULL;
+
+    curInputX = curInputY = 10;
 }
 
 GuisanWindow::~GuisanWindow(void)
 {
-    if (m_TextInput) { delete m_TextInput; m_TextInput = NULL; }
+    if (m_MenuIconInput) { delete m_MenuIconInput; m_MenuIconInput = NULL; }
+    if (m_ItemsListInput) { delete m_ItemsListInput; m_ItemsListInput = NULL; }
     
     if (m_Label) { delete m_Label; m_Label = NULL; }
     if (m_Font) { delete m_Font; m_Font = NULL; }
@@ -65,7 +71,7 @@ bool GuisanWindow::init(void)
     m_Input = new gcn::SDLInput();
 
 
-    /* Create widgets */
+    /* Create Basic Widgets */
     m_Top = new gcn::Container();
     m_Top->setDimension(gcn::Rectangle(0, 0, S_WIDTH, S_HEIGHT));
 
@@ -77,15 +83,17 @@ bool GuisanWindow::init(void)
     m_Font = new gcn::ImageFont("fixedfont.bmp", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
     gcn::Widget::setGlobalFont(m_Font);
 
+    /* Global action listener for each input to use */
+    m_TFActionListener = new TextFieldActionListener();
+
+    // TODO - remove me 
     m_Label = new gcn::Label("Hello World!");
     m_Label->setPosition(280, 220);
     m_Top->add(m_Label);
-    
-    /* Test ... */
-    m_TextInput = new gcn::TextField("Text field");
-    m_TextInput->setActionEventId(INPUT_ID);
-    m_TextInput->addActionListener(new TextFieldActionListener());
-    m_Top->add(m_TextInput, 10, 10);
+
+    /* Create our input widgets */
+    initTextField(m_MenuIconInput, InputIDs[MenuIcon]);
+    initTextField(m_ItemsListInput, InputIDs[ItemsList]);
 
     return true;
 }
@@ -113,3 +121,19 @@ int GuisanWindow::getWindowId(void)
     return (m_Window ? SDL_GetWindowID(m_Window) : -1);
 }
 
+void GuisanWindow::initTextField(gcn::TextField *tf, std::string id)
+{
+    tf = new gcn::TextField(std::string(" "));
+    tf->setWidth(100);
+    tf->setText(std::string(" "));
+    tf->setActionEventId(id);
+    tf->addActionListener(m_TFActionListener);
+    m_Top->add(tf, curInputX, curInputY);
+
+    curInputY += 50;
+    if(curInputY >= (S_HEIGHT - 50))
+    {
+        curInputY = 10;
+        curInputX += 120;
+    }
+}

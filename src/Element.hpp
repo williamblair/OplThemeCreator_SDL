@@ -53,6 +53,9 @@ public:
     int getXCentered(int index);
     int getYCentered(int index);
 
+    /* Get the number of images we have */
+    int getNumImages(void);
+
 private:
     std::string m_name;
 

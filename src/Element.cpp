@@ -135,3 +135,8 @@ int Element::getYCentered(int index)
         m_sprites.at(index)->getH()/2;
 }
 
+int Element::getNumImages(void)
+{
+    return m_sprites.size();
+}
+

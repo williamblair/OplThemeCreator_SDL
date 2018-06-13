@@ -11,9 +11,13 @@
 
 #include "Element.hpp"
 #include "Setting.hpp"
+#include "FontHandler.hpp"
 
 #ifndef GUISAN_WINDOW_H_INCLUDED
 #define GUISAN_WINDOW_H_INCLUDED
+
+/* The text list of games */
+extern FontHandler gamesListFontHandler;
 
 /* The elements list we'll want to modify */
 extern std::vector<Element> elements;
@@ -22,7 +26,11 @@ extern std::vector<Element> elements;
 extern std::vector<std::string> menuIconList;
 
 /* What we want to name our text input */
-const std::string INPUT_ID = "textInput1";
+enum inputEnum { MenuIcon, ItemsList };
+static std::vector<std::string> InputIDs = {
+    "MenuIcon",
+    "ItemsList"
+};
 
 /* Window dimensions */
 const int S_WIDTH  = 640;
@@ -39,7 +47,7 @@ public:
         std::string str;
 
         /* Test if the event is from our button */
-        if(actionEvent.getId() == INPUT_ID)
+        if(actionEvent.getId() == InputIDs[MenuIcon])
         {
             /* Get the widget pointer */
             gcn::TextField *t = (gcn::TextField*)actionEvent.getSource();
@@ -50,21 +58,40 @@ public:
             int x=0;
             sscanf(t->getText().c_str(), "%d", &x);
             printf("scanf'd x: %d\n", x);
-
-            /* Find the element we want to change */
-            for(int i=0; i<elements.size(); i++)
-            {
-                if(elements.at(i).getSettings().at(0).getValueStr() == "MenuIcon")
+            
+            Element *e = findElement(InputIDs[MenuIcon]);
+            if (e) {
+                for (int j = 0; j < menuIconList.size(); j++)
                 {
-                    //std::vector<Setting> elementSettings = elements.at(i).getSettings();
-                    for(int j=0; j<menuIconList.size(); j++)
-                    {
-                        int curY = elements.at(i).getYCentered(j);
-                        elements.at(i).setPosCentered(x, curY, j);
-                    }
+                    int curY = e->getYCentered(j);
+                    e->setPosCentered(x, curY, j);
                 }
             }
         }
+
+        else if (actionEvent.getId() == InputIDs[ItemsList])
+        {
+            gcn::TextField *t = (gcn::TextField*)actionEvent.getSource();
+
+            int x = 0;
+            sscanf(t->getText().c_str(), "%d", &x);
+
+            for (int i = 0; i < gamesListFontHandler.getNumMessages(); i++)
+            {
+                gamesListFontHandler.setX(x, i);
+            }
+        }
+    }
+private:
+    Element * findElement(std::string valueStr)
+    {
+        for (int i = 0; i < elements.size(); i++)
+        {
+            if (elements.at(i).getSettings().at(0).getValueStr() == valueStr)
+                return &elements.at(i);
+        }
+
+        return NULL;
     }
 };
 
@@ -100,9 +127,18 @@ private:
     gcn::ImageFont *m_Font;
     gcn::Label     *m_Label;
     
-    /* Test input */
-    //textField = new gcn::TextField("Text field");
-    gcn::TextField *m_TextInput;
+    /* Input Widgets */
+    gcn::TextField *m_MenuIconInput;
+    gcn::TextField *m_ItemsListInput;
+
+
+    /* Action listener for each input */
+    TextFieldActionListener *m_TFActionListener;
+
+    /* Set basic properties of the input */
+    int curInputX;
+    int curInputY;
+    void initTextField(gcn::TextField *tf, std::string id);
 };
 
 #endif
