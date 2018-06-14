@@ -39,10 +39,10 @@ public:
     bool draw(SDL_Surface *s, int index = -1);
 
     /* Set the width/height of the image */
-    bool setSize(int width, int height);
+    bool setSize(int width, int height, int index = -1);
 
     /* Set the position of the sprite */
-    bool setPos(int x, int y);
+    bool setPos(int x, int y, int index = -1);
 
     /* Set the position of the sprite with the given
      * x and y representing the center of the image */

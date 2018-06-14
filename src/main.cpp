@@ -433,8 +433,7 @@ void applySettings(void)
                 std::string image = "images/p4cover.png";
                 elements.at(i).addImage(image);
                 elements.at(i).setPosCentered(x, y);
-
-                // TODO - fix Sprite class so resizing works!
+                
                 /* Calculate and resize the cover image */
                 newCoverWidth = urx - ulx;
                 newCoverHeight = lly - uly;
