@@ -80,18 +80,24 @@ bool Element::draw(SDL_Surface *s, int index)
     return true;
 }
 
-bool Element::setSize(int width, int height)
+bool Element::setSize(int width, int height, int index)
 {
     if (m_sprites.size() > 0)
     {
-        m_sprites.back()->setW(width);
-        m_sprites.back()->setH(height);
+        if(index == -1) {
+            m_sprites.back()->setW(width);
+            m_sprites.back()->setH(height);
+        }
+        else {
+            m_sprites.at(index)->setW(width);
+            m_sprites.at(index)->setH(height);
+        }
     }
 
     return true;
 }
 
-bool Element::setPos(int x, int y)
+bool Element::setPos(int x, int y, int index)
 {
     if(m_sprites.size() > 0)
     {
@@ -99,8 +105,14 @@ bool Element::setPos(int x, int y)
         if(x < 0) x = 640 + x;
         if(y < 0) y = 480 + y;
         
-        m_sprites.back()->setX(x);
-        m_sprites.back()->setY(y);
+        if(index == -1) {
+            m_sprites.back()->setX(x);
+            m_sprites.back()->setY(y);
+        }
+        else {
+            m_sprites.at(index)->setX(x);
+            m_sprites.at(index)->setY(y);
+        }
     }
     
     return true;

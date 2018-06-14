@@ -16,6 +16,7 @@ GuisanWindow::GuisanWindow(void)
     
     m_MenuIconInput  = NULL;
     m_ItemsListInput = NULL;
+    m_ItemCoverInput = NULL;
 
     m_TFActionListener = NULL;
 
@@ -26,6 +27,7 @@ GuisanWindow::~GuisanWindow(void)
 {
     if (m_MenuIconInput) { delete m_MenuIconInput; m_MenuIconInput = NULL; }
     if (m_ItemsListInput) { delete m_ItemsListInput; m_ItemsListInput = NULL; }
+    if (m_ItemCoverInput) { delete m_ItemCoverInput; m_ItemCoverInput = NULL; }
     
     if (m_Label) { delete m_Label; m_Label = NULL; }
     if (m_Font) { delete m_Font; m_Font = NULL; }
@@ -94,6 +96,7 @@ bool GuisanWindow::init(void)
     /* Create our input widgets */
     initTextField(m_MenuIconInput, InputIDs[MenuIcon]);
     initTextField(m_ItemsListInput, InputIDs[ItemsList]);
+    initTextField(m_ItemCoverInput, InputIDs[ItemCover]);
 
     return true;
 }
