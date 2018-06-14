@@ -26,10 +26,11 @@ extern std::vector<Element> elements;
 extern std::vector<std::string> menuIconList;
 
 /* What we want to name our text input */
-enum inputEnum { MenuIcon, ItemsList };
+enum inputEnum { MenuIcon, ItemsList, ItemCover };
 static std::vector<std::string> InputIDs = {
     "MenuIcon",
-    "ItemsList"
+    "ItemsList",
+    "ItemCover"
 };
 
 /* Window dimensions */
@@ -81,6 +82,12 @@ public:
                 gamesListFontHandler.setX(x, i);
             }
         }
+        
+        else if (actionEvent.getId() == InputIDs[ItemCover])
+        {
+            printf("Item Cover Control!\n");
+        }
+        
     }
 private:
     Element * findElement(std::string valueStr)
@@ -130,7 +137,7 @@ private:
     /* Input Widgets */
     gcn::TextField *m_MenuIconInput;
     gcn::TextField *m_ItemsListInput;
-
+    gcn::TextField *m_ItemCoverInput;
 
     /* Action listener for each input */
     TextFieldActionListener *m_TFActionListener;
