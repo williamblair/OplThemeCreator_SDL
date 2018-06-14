@@ -149,6 +149,10 @@ public:
                     }
                 }
 
+                /* Reset the image size to original otherwise it screws up
+                 * moving calculations */
+                e->setSize(140, 200, 0);
+
                 /* Set the new postion of the cover image */
                 e->setPosCentered(x, y, 0);
                 
