@@ -11,6 +11,7 @@
 #include <vector>
 #include <fstream>
 #include <map>
+#include <algorithm>
 
 void mainLoop(void);
 void parseFile(const char *filename);
@@ -275,6 +276,18 @@ void parseFile(const char *fileName)
 
 void applySettings(void)
 {
+    /* All of the different color option names */
+    std::vector<std::string> settingColorNames = {
+        "bg_color",
+        "hint_text_color",
+        "item_text_color",
+        "menu_text_color",
+        "sel_text_color",
+        "settings_text_color",
+        "text_color",
+        "ui_text_color"
+    };
+
     /* Set some defaults first */
     gamesListFontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
     hintTextFontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
@@ -284,14 +297,9 @@ void applySettings(void)
     for (Setting s : settings)
     {
         if (s.getName() == "bg_color")                     hBGColor(d, s);
-        else if (s.getName() == "hint_text_color" ||
-            s.getName() == "item_text_color" ||
-            s.getName() == "menu_text_color" ||
-            s.getName() == "sel_text_color" ||
-            s.getName() == "settings_text_color" ||
-            s.getName() == "text_color" ||
-            s.getName() == "ui_text_color"
-            )                                                 hColorSetting(d, s);
+        else if (std::find(settingColorNames.begin(),      
+                 settingColorNames.end(), s.getName())     
+                != settingColorNames.end())                hColorSetting(d, s);
         else if (s.getName() == "default_font")            hDefaultFont(d, s);
     }
 
