@@ -9,7 +9,8 @@ INCDIRS = -I/usr/include/SDL2
 
 BIN = main
 OBJS = build/main.o build/Sprite.o build/Display.o build/Setting.o build/Element.o build/SettingHandlers.o build/HexColorParser.o \
-       build/FontHandler.o build/GuisanWindow.o build/ActionEventHandlers.o
+       build/FontHandler.o build/GuisanWindow.o build/ActionEventHandlers.o \
+	   build/ApplySettingsHandlers.o
 
 # Note - the order here matters - different order may result in errors!
 #-lpthread -lstdc++fs
