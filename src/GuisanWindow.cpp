@@ -107,9 +107,6 @@ bool GuisanWindow::init(void)
     m_Top->add(m_Label);
 
     /* Create our input widgets */
-/*    initTextField(m_MenuIconInput, InputIDs[MenuIcon]);
-    initTextField(m_ItemsListInput, InputIDs[ItemsList]);
-    initTextField(m_ItemCoverInput, InputIDs[ItemCover]);*/
     initEntryGroup(InputIDs[MenuIcon]);
     initEntryGroup(InputIDs[ItemsList]);
     initEntryGroup(InputIDs[ItemCover]);
