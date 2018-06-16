@@ -140,26 +140,6 @@ int GuisanWindow::getWindowId(void)
     return (m_Window ? SDL_GetWindowID(m_Window) : -1);
 }
 
-#if 0
-void GuisanWindow::initTextField(gcn::TextField *tf, std::string id)
-{
-    tf = new gcn::TextField(std::string(" "));
-    tf->setWidth(100);
-    tf->setText(std::string(" "));
-    tf->setActionEventId(id);
-    tf->addActionListener(m_TFActionListener);
-    m_Top->add(tf, curInputX, curInputY);
-
-    curInputY += 50;
-    if(curInputY >= (S_HEIGHT - 50))
-    {
-        curInputY = 10;
-        curInputX += 120;
-    }
-}
-#endif
-
-
 void GuisanWindow::initEntryGroup(std::string id)
 {
     /* Define our new entry group */
