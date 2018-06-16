@@ -222,7 +222,7 @@ void mainLoop(void)
 
     /* Letting the deconstructor run when it normally would causes
      * a list iterator not dereferencable error */
-    guisanWindow.~GuisanWindow();
+    guisanWindow.close();
 }
 
 void parseFile(const char *fileName)

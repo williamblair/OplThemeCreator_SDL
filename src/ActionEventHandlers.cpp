@@ -8,17 +8,27 @@ void hMenuIconAction(const gcn::ActionEvent &actionEvent)
     /* See what our text value currently is */
     printf("Text Input: %s\n", t->getText().c_str());
 
-    int x=0;
-    sscanf(t->getText().c_str(), "%d", &x);
-    printf("scanf'd x: %d\n", x);
+    int val=0;
+    sscanf(t->getText().c_str(), "%d", &val);
+    printf("scanf'd val: %d\n", val);
     
     Element *e = findElement(InputIDs[MenuIcon]);
     if (e) {
-        for (int j = 0; j < menuIconList.size(); j++)
-        {
-            int curY = e->getYCentered(j);
-            e->setPosCentered(x, curY, j);
-        }
+
+        /* Figure out if the input is for the X or Y,
+         * then loop through and update the new values  */
+        if (actionEvent.getId() == InputIDs[MenuIcon] + "X")
+            for (int j = 0; j < menuIconList.size(); j++)
+            {
+                int curY = e->getYCentered(j);
+                e->setPosCentered(val, curY, j);
+            }
+        else
+            for (int j = 0; j < menuIconList.size(); j++)
+            {
+                int curX = e->getXCentered(j);
+                e->setPosCentered(curX, val, j);
+            } 
     }
 }
 
@@ -26,12 +36,24 @@ void hItemsListAction(const gcn::ActionEvent &actionEvent)
 {
     gcn::TextField *t = (gcn::TextField*)actionEvent.getSource();
 
-    int x = 0;
-    sscanf(t->getText().c_str(), "%d", &x);
+    int val = 0;
+    sscanf(t->getText().c_str(), "%d", &val);
 
-    for (int i = 0; i < gamesListFontHandler.getNumMessages(); i++)
+    if (actionEvent.getId() == InputIDs[ItemsList] + "X")
+        for (int i = 0; i < gamesListFontHandler.getNumMessages(); i++)
+        {
+            gamesListFontHandler.setX(val, i);
+        }
+    else
     {
-        gamesListFontHandler.setX(x, i);
+        /* Move down a line for each message
+         * FONT_HEIGHT in FontHandler.hpp */
+        int curYOffset = 0;
+        for (int i = 0; i < gamesListFontHandler.getNumMessages(); i++)
+        {
+            gamesListFontHandler.setY(val+curYOffset, i);
+            curYOffset += FONT_HEIGHT;
+        }
     }
 }
 
@@ -41,9 +63,12 @@ void hItemCoverAction(const gcn::ActionEvent &actionEvent)
     
     /* The x and y pos of the game cover */
     int x = 0, y = 0;
+    int val;
     
-    sscanf(t->getText().c_str(), "%d", &x);
+    sscanf(t->getText().c_str(), "%d", &val);
     
+    std::string actionID = actionEvent.getId();
+
     Element *e = findElement(InputIDs[ItemCover]);
     
     if(e) {
@@ -62,8 +87,21 @@ void hItemCoverAction(const gcn::ActionEvent &actionEvent)
 
         for (Setting s : elementSettings)
         {
-            if (s.getName() == "y") {
-                y = s.getValueInt();
+            /* If the action event was on the x input we
+             * want to use the input value, otherwise
+             * we want to use the existing setting value */
+            if(s.getName() == "x") {
+                if (actionID == InputIDs[ItemCover] + "X")
+                    x = val;
+                else
+                    x = s.getValueInt();
+            }
+            /* Same idea as above x value */
+            if (s.getName() == "y") { 
+                if (actionID == InputIDs[ItemCover] + "Y")
+                    y = val;
+                else
+                    y = s.getValueInt();
             }
             
             else if (s.getName() == "overlay_ulx") {

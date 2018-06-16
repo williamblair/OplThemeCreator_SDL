@@ -14,15 +14,20 @@
 #include "FontHandler.hpp"
 #include "ActionEventHandlers.hpp"
 
+#include "EntryGroup.hpp"
+
 #ifndef GUISAN_WINDOW_H_INCLUDED
 #define GUISAN_WINDOW_H_INCLUDED
 
 /* Function pointers map to our command handlers */
 typedef void (*handlerFunc)(const gcn::ActionEvent &actionEvent);
 static std::map<std::string, handlerFunc> handlerFuncs = {
-    { InputIDs[MenuIcon] , hMenuIconAction },
-    { InputIDs[ItemsList], hItemsListAction },
-    { InputIDs[ItemCover], hItemCoverAction }
+    { InputIDs[MenuIcon]+"X" , hMenuIconAction },
+    { InputIDs[MenuIcon]+"Y" , hMenuIconAction },
+    { InputIDs[ItemsList]+"X", hItemsListAction },
+    { InputIDs[ItemsList]+"Y", hItemsListAction },
+    { InputIDs[ItemCover]+"X", hItemCoverAction },
+    { InputIDs[ItemCover]+"Y", hItemCoverAction }
 };
 
 /* Window dimensions */
@@ -45,7 +50,11 @@ class GuisanWindow
 {
 public:
     GuisanWindow(void);
-    ~GuisanWindow(void);
+    /* Instead of a deconstructor 
+     * we want to free memory ourselves
+     * due to Guisan's threads causing
+     * concurrency issues on close */
+    void close(void);
 
     bool init(void);
 
@@ -74,9 +83,7 @@ private:
     gcn::Label     *m_Label;
     
     /* Input Widgets */
-    gcn::TextField *m_MenuIconInput;
-    gcn::TextField *m_ItemsListInput;
-    gcn::TextField *m_ItemCoverInput;
+    std::vector<EntryGroup> m_EntryGroups;
 
     /* Action listener for each input */
     TextFieldActionListener *m_TFActionListener;
@@ -84,7 +91,7 @@ private:
     /* Set basic properties of the input */
     int curInputX;
     int curInputY;
-    void initTextField(gcn::TextField *tf, std::string id);
+    void initEntryGroup(std::string id);
 };
 
 #endif

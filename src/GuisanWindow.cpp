@@ -14,21 +14,34 @@ GuisanWindow::GuisanWindow(void)
     m_Top   = NULL;
     m_Label = NULL;
     
-    m_MenuIconInput  = NULL;
-    m_ItemsListInput = NULL;
-    m_ItemCoverInput = NULL;
-
     m_TFActionListener = NULL;
 
     curInputX = curInputY = 10;
 }
 
-GuisanWindow::~GuisanWindow(void)
-{
-    if (m_MenuIconInput) { delete m_MenuIconInput; m_MenuIconInput = NULL; }
-    if (m_ItemsListInput) { delete m_ItemsListInput; m_ItemsListInput = NULL; }
-    if (m_ItemCoverInput) { delete m_ItemCoverInput; m_ItemCoverInput = NULL; }
-    
+void GuisanWindow::close(void)
+{ 
+    for(std::vector<EntryGroup>::iterator i = m_EntryGroups.begin(); i != m_EntryGroups.end(); i++)
+    {
+        /* Cast the iterator as our current entry */
+        EntryGroup e = *i;
+
+        if ( e.label != NULL) {
+            delete e.label;
+            e.label = NULL;
+        }
+
+        if (e.textFieldX != NULL) {
+            delete e.textFieldX;
+            e.textFieldX = NULL;
+        }
+
+        if (e.textFieldY != NULL) {
+            delete e.textFieldY;
+            e.textFieldY = NULL;
+        }
+    }
+
     if (m_Label) { delete m_Label; m_Label = NULL; }
     if (m_Font) { delete m_Font; m_Font = NULL; }
     if (m_Top) { delete m_Top; m_Top = NULL; }
@@ -94,9 +107,9 @@ bool GuisanWindow::init(void)
     m_Top->add(m_Label);
 
     /* Create our input widgets */
-    initTextField(m_MenuIconInput, InputIDs[MenuIcon]);
-    initTextField(m_ItemsListInput, InputIDs[ItemsList]);
-    initTextField(m_ItemCoverInput, InputIDs[ItemCover]);
+    initEntryGroup(InputIDs[MenuIcon]);
+    initEntryGroup(InputIDs[ItemsList]);
+    initEntryGroup(InputIDs[ItemCover]);
 
     return true;
 }
@@ -124,19 +137,39 @@ int GuisanWindow::getWindowId(void)
     return (m_Window ? SDL_GetWindowID(m_Window) : -1);
 }
 
-void GuisanWindow::initTextField(gcn::TextField *tf, std::string id)
+void GuisanWindow::initEntryGroup(std::string id)
 {
-    tf = new gcn::TextField(std::string(" "));
-    tf->setWidth(100);
-    tf->setText(std::string(" "));
-    tf->setActionEventId(id);
-    tf->addActionListener(m_TFActionListener);
-    m_Top->add(tf, curInputX, curInputY);
+    /* Define our new entry group */
+    EntryGroup eg;
+    m_EntryGroups.push_back(eg);
+    m_EntryGroups.back().label      = new gcn::Label(id);
+    
+    m_EntryGroups.back().textFieldX = new gcn::TextField(std::string(" ")); 
+    m_EntryGroups.back().textFieldY = new gcn::TextField(std::string(" ")); 
+    
+    m_EntryGroups.back().textFieldX->setWidth(50);
+    m_EntryGroups.back().textFieldY->setWidth(50);
+    
+    m_EntryGroups.back().textFieldX->addActionListener(m_TFActionListener);
+    m_EntryGroups.back().textFieldY->addActionListener(m_TFActionListener);
 
-    curInputY += 50;
+    m_EntryGroups.back().textFieldX->setActionEventId(id + "X");
+    m_EntryGroups.back().textFieldY->setActionEventId(id + "Y");
+
+    m_Top->add(m_EntryGroups.back().label,      curInputX,     curInputY);
+    m_Top->add(m_EntryGroups.back().textFieldX, curInputX+60, curInputY);
+    m_Top->add(m_EntryGroups.back().textFieldY, curInputX+120, curInputY);
+
+    curInputY += 30;
     if(curInputY >= (S_HEIGHT - 50))
     {
         curInputY = 10;
         curInputX += 120;
     }
+    
 }
+
+
+
+
+
