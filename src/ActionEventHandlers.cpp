@@ -220,6 +220,49 @@ void hLoadingIconAction(const gcn::ActionEvent &actionEvent)
     }
 }
 
+void hHintTextAction(const gcn::ActionEvent &actionEvent)
+{
+    gcn::TextField *t = (gcn::TextField*)actionEvent.getSource();
+    
+    /* The x and y pos of the loading icon */
+    int y = 0;
+    int val = 0;
+    
+    sscanf(t->getText().c_str(), "%d", &val);
+    
+    std::string actionID = actionEvent.getId();
+
+    Element *e = findElement(InputIDs[HintText]);
+    
+    if (e) {
+        std::vector<Setting> *elementSettings = e->getSettings();
+
+        for (int i = 0; i < elementSettings->size(); i++)
+        {
+            /* Get the current settings reference */
+            Setting &s = elementSettings->at(i);
+            
+            if (s.getName() == "y") {
+                y = val;
+                s.setValueInt(val);
+            }
+        }
+        
+        e->setPos(0, y, 0);
+        e->setPos(100, y, 1);
+        e->setPos(170, y, 2);
+        e->setPos(320, y, 3);
+        e->setPos(440, y, 4);
+        e->setPos(545, y, 5);
+        
+        /* Update each hint text location */
+        for (int i = 0; i < 6; i++)
+        {
+            hintTextFontHandler.setY(y, i);
+        }
+    }
+}
+
 Element * findElement(std::string valueStr)
 {
     for (int i = 0; i < elements.size(); i++)

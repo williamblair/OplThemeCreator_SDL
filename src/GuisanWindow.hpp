@@ -29,7 +29,9 @@ static std::map<std::string, handlerFunc> handlerFuncs = {
     { InputIDs[ItemCover]+"X", hItemCoverAction },
     { InputIDs[ItemCover]+"Y", hItemCoverAction },
     { InputIDs[LoadingIcon]+"X", hLoadingIconAction },
-    { InputIDs[LoadingIcon]+"Y", hLoadingIconAction }
+    { InputIDs[LoadingIcon]+"Y", hLoadingIconAction },
+    { InputIDs[HintText] + "X", hHintTextAction },
+    { InputIDs[HintText] + "Y", hHintTextAction }
 };
 
 /* Window dimensions */
