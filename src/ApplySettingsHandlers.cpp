@@ -1,10 +1,13 @@
 #include "ApplySettingsHandlers.hpp"
 
-void hApplyBackground(std::vector<Setting> elementSettings, int i)
+void hApplyBackground(std::vector<Setting> *elementSettings, int i)
 {
     /* Open the image */
-    for (Setting s : elementSettings)
+    for (int j = 0; j < elementSettings->size(); j++)
     {
+        /* Get the current settings reference */
+        Setting &s = elementSettings->at(j);
+        
         /* The main background image */
         if (s.getName() == "default") {
             std::string image = themeDir + "/" + s.getValueStr() + ".jpg";
@@ -13,14 +16,17 @@ void hApplyBackground(std::vector<Setting> elementSettings, int i)
     }
 }
 
-void hApplyMenuIcon(std::vector<Setting> elementSettings, int i)
+void hApplyMenuIcon(std::vector<Setting> *elementSettings, int i)
 {
     /* The position of the menu icons */
     int x = 0, y = 0;
 
     /* The menu icon - which device games are begin read from */
-    for (Setting s : elementSettings)
+    for (int j = 0; j < elementSettings->size(); j++)
     {
+        /* Get the current settings reference */
+        Setting &s = elementSettings->at(j);
+        
         if (s.getName() == "x") {
             x = s.getValueInt();
         }
@@ -41,12 +47,15 @@ void hApplyMenuIcon(std::vector<Setting> elementSettings, int i)
     }
 }
 
-void hApplyItemsList(std::vector<Setting> elementSettings, int i)
+void hApplyItemsList(std::vector<Setting> *elementSettings, int i)
 {
     /* The x and y pos of the Games list */
     int x = 0, y = 0;
-    for (Setting s : elementSettings)
+    for (int j = 0; j < elementSettings->size(); j++)
     {
+        /* Get the current settings reference */
+        Setting &s = elementSettings->at(j);
+        
         if (s.getName() == "x") {
             x = s.getValueInt();
         }
@@ -59,7 +68,7 @@ void hApplyItemsList(std::vector<Setting> elementSettings, int i)
     gamesListFontHandler.setY(y);
 }
 
-void hApplyItemCover(std::vector<Setting> elementSettings, int i)
+void hApplyItemCover(std::vector<Setting> *elementSettings, int i)
 {
     /* The x and y pos of the game cover */
     int x = 0, y = 0;
@@ -77,8 +86,11 @@ void hApplyItemCover(std::vector<Setting> elementSettings, int i)
     /* The name of the item cover image (assumes.png for now...) */
     std::string coverImage = "";
 
-    for (Setting s : elementSettings)
+    for (int j = 0; j < elementSettings->size(); j++)
     {
+        /* Get the current settings reference */
+        Setting &s = elementSettings->at(j);
+        
         if (s.getName() == "x") {
             x = s.getValueInt();
         }
@@ -140,11 +152,14 @@ void hApplyItemCover(std::vector<Setting> elementSettings, int i)
     elements.at(i).setPos((x-(coverWidth/2))-ulx, (y-(coverHeight/2))-uly);
 }
 
-void hApplyLoadingIcon(std::vector<Setting> elementSettings, int i)
+void hApplyLoadingIcon(std::vector<Setting> *elementSettings, int i)
 {
     int x = 0, y = 0;
-    for (Setting s : elementSettings) 
+    for (int j = 0; j < elementSettings->size(); j++) 
     {
+        /* Get the current settings reference */
+        Setting &s = elementSettings->at(j);
+        
         /* Wrap values if needed */
         if (s.getName() == "x") {
             x = s.getValueInt();
@@ -169,11 +184,14 @@ void hApplyLoadingIcon(std::vector<Setting> elementSettings, int i)
     }
 }
 
-void hApplyHintText(std::vector<Setting> elementSettings, int i)
+void hApplyHintText(std::vector<Setting> *elementSettings, int i)
 {
     int y = 0;
-    for(Setting s : elementSettings)
+    for (int j = 0; j < elementSettings->size(); j++)
     {
+        /* Get the current settings reference */
+        Setting &s = elementSettings->at(j);
+        
         if(s.getName() == "y") {
             y = s.getValueInt();
         }

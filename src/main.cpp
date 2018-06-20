@@ -72,7 +72,7 @@ std::map<std::string, Uint32> settingColors;
 std::string themeDir;
 
 /* Function pointers map to our apply setting handlers */
-typedef void (*applySettingFunc)(std::vector<Setting> elementSettings, int i);
+typedef void (*applySettingFunc)(std::vector<Setting> *elementSettings, int i);
 static std::map<std::string, applySettingFunc> applySettingFuncs = {
     { "Background",  hApplyBackground  },
     { "MenuIcon",    hApplyMenuIcon    },
@@ -197,7 +197,7 @@ void mainLoop(void)
         /* Draw elements (if they have an image) */
         for (int i = 0; i < elements.size(); i++)
         {
-            if (elements.at(i).getSettings().at(0).getValueStr() == "MenuIcon") {
+            if (elements.at(i).getSettings()->at(0).getValueStr() == "MenuIcon") {
                 elements.at(i).draw(d.getSurface(), selectedMenuIndex);
             }
             else {
@@ -318,13 +318,13 @@ void applySettings(void)
     /* Parse the elements */
     for (int i = 0; i < elements.size(); i++)
     {
-        std::vector<Setting> elementSettings = elements.at(i).getSettings();
+        std::vector<Setting> *elementSettings = elements.at(i).getSettings();
 
         /* If we're dealing with a main element */
         if (elements.at(i).getName().find("main") != std::string::npos)
         {
             /* Call the corresponding setting handler */
-            applySettingFuncs[elementSettings.at(0).getValueStr()](elementSettings, i);
+            applySettingFuncs[elementSettings->at(0).getValueStr()](elementSettings, i);
         }
 
         /* If we're dealing with a info element */

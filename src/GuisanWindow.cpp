@@ -110,6 +110,7 @@ bool GuisanWindow::init(void)
     initEntryGroup(InputIDs[MenuIcon]);
     initEntryGroup(InputIDs[ItemsList]);
     initEntryGroup(InputIDs[ItemCover]);
+    initEntryGroup(InputIDs[LoadingIcon]);
 
     return true;
 }

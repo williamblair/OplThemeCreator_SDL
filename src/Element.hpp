@@ -26,7 +26,7 @@ public:
     void print(void);
 
     /* Return the settings list */
-    std::vector<Setting> getSettings(void);
+    std::vector<Setting> *getSettings(void);
 
     /* Return the element name */
     std::string getName(void);

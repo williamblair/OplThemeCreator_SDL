@@ -41,3 +41,9 @@ void Setting::print(void)
 std::string Setting::getName(void){return m_name;}
 std::string Setting::getValueStr(void){return m_valueStr;}
 int         Setting::getValueInt(void){return m_valueInt;}
+
+void Setting::setValueInt(int val)
+{
+    m_valueInt = val;
+}
+
