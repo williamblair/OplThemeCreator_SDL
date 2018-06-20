@@ -54,9 +54,9 @@ void Element::print(void)
     }
 }
 
-std::vector<Setting> Element::getSettings(void)
+std::vector<Setting> *Element::getSettings(void)
 {
-    return m_settings;
+    return &m_settings;
 }
 
 std::string Element::getName(void)
@@ -120,6 +120,10 @@ bool Element::setPos(int x, int y, int index)
 
 bool Element::setPosCentered(int x, int y, int index)
 {
+    /* Wrap the positions if they are negative */
+    if(x < 0) x = 640 + x;
+    if(y < 0) y = 480 + y;
+    
     if(index != -1)
     {
         m_sprites.at(index)->setX(x - m_sprites.at(index)->getW() / 2);

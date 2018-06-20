@@ -20,11 +20,11 @@ extern std::vector<std::string> hintTextList;
 #ifndef APPLY_SETTINGS_H_INCLUDED
 #define APPLY_SETTINGS_H_INCLUDED
 
-void hApplyBackground(std::vector<Setting> elementSettings, int i);
-void hApplyMenuIcon(std::vector<Setting> elementSettings, int i);
-void hApplyItemsList(std::vector<Setting> elementSettings, int i);
-void hApplyItemCover(std::vector<Setting> elementSettings, int i);
-void hApplyLoadingIcon(std::vector<Setting> elementSettings, int i);
-void hApplyHintText(std::vector<Setting> elementSettings, int i);
+void hApplyBackground(std::vector<Setting> *elementSettings, int i);
+void hApplyMenuIcon(std::vector<Setting> *elementSettings, int i);
+void hApplyItemsList(std::vector<Setting> *elementSettings, int i);
+void hApplyItemCover(std::vector<Setting> *elementSettings, int i);
+void hApplyLoadingIcon(std::vector<Setting> *elementSettings, int i);
+void hApplyHintText(std::vector<Setting> *elementSettings, int i);
 
 #endif

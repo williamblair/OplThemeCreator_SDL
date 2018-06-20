@@ -83,23 +83,30 @@ void hItemCoverAction(const gcn::ActionEvent &actionEvent)
         /* The new size of the cover image based on the above coordinates */
         int newCoverWidth = 1, newCoverHeight = 1;
         
-        std::vector<Setting> elementSettings = e->getSettings();
+        std::vector<Setting> *elementSettings = e->getSettings();
 
-        for (Setting s : elementSettings)
+        for (int i = 0; i < elementSettings->size(); i++)
         {
+            /* Get the current setting reference */
+            Setting &s = elementSettings->at(i);
+            
             /* If the action event was on the x input we
              * want to use the input value, otherwise
              * we want to use the existing setting value */
             if(s.getName() == "x") {
-                if (actionID == InputIDs[ItemCover] + "X")
+                if (actionID == InputIDs[ItemCover] + "X") {
                     x = val;
+                    s.setValueInt(val);
+                }
                 else
                     x = s.getValueInt();
             }
             /* Same idea as above x value */
             if (s.getName() == "y") { 
-                if (actionID == InputIDs[ItemCover] + "Y")
+                if (actionID == InputIDs[ItemCover] + "Y") {
                     y = val;
+                    s.setValueInt(val);
+                }
                 else
                     y = s.getValueInt();
             }
@@ -155,11 +162,69 @@ void hItemCoverAction(const gcn::ActionEvent &actionEvent)
     }
 }
 
+void hLoadingIconAction(const gcn::ActionEvent &actionEvent)
+{
+    gcn::TextField *t = (gcn::TextField*)actionEvent.getSource();
+    
+    /* The x and y pos of the loading icon */
+    int x = 0, y = 0;
+    int val;
+    
+    sscanf(t->getText().c_str(), "%d", &val);
+    
+    std::string actionID = actionEvent.getId();
+
+    Element *e = findElement(InputIDs[LoadingIcon]);
+    
+    if (e) {
+        std::vector<Setting> *elementSettings = e->getSettings();
+
+        for (int i = 0; i < elementSettings->size(); i++)
+        {
+            /* Get the current setting reference */
+            Setting &s = elementSettings->at(i);
+            
+            /* If the action event was on the x input we
+             * want to use the input value, otherwise
+             * we want to use the existing setting value */
+            if (elementSettings->at(i).getName() == "x") {
+                if (actionID == InputIDs[LoadingIcon] + "X") {
+                    x = val;
+                    elementSettings->at(i).setValueInt(val);
+                }
+                else
+                    x = elementSettings->at(i).getValueInt();
+            }
+            
+            else if (elementSettings->at(i).getName() == "y") {
+                if (actionID == InputIDs[LoadingIcon] + "Y") {
+                    y = val;
+                    elementSettings->at(i).setValueInt(val);
+                }
+                else
+                    y = elementSettings->at(i).getValueInt();
+            }
+        }
+        
+        /* Wrap values if negative */
+        if (x < 0) x = 640 + x;
+        if (y < 0) y + 480 + y;
+        
+        /* Instead of putting these images in the element, 
+         * they're stored in their own vector so we can animate them */
+        for (int i = 0; i < loadingIcons.size(); i++)
+        {
+            loadingIcons.at(i)->setX(x);
+            loadingIcons.at(i)->setY(y);
+        }
+    }
+}
+
 Element * findElement(std::string valueStr)
 {
     for (int i = 0; i < elements.size(); i++)
     {
-        if (elements.at(i).getSettings().at(0).getValueStr() == valueStr)
+        if (elements.at(i).getSettings()->at(0).getValueStr() == valueStr)
             return &elements.at(i);
     }
 

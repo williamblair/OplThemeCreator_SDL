@@ -25,17 +25,22 @@ extern std::vector<Element> elements;
 /* each menu icon image name */
 extern std::vector<std::string> menuIconList;
 
+/* Animated loading icons list */
+extern std::vector<Sprite *> loadingIcons;
+
 /* What we want to name our text input */
-enum inputEnum { MenuIcon, ItemsList, ItemCover };
+enum inputEnum { MenuIcon, ItemsList, ItemCover, LoadingIcon };
 static std::vector<std::string> InputIDs = {
     "MenuIcon",
     "ItemsList",
-    "ItemCover"
+    "ItemCover",
+    "LoadingIcon"
 };
  
 void hMenuIconAction(const gcn::ActionEvent &actionEvent);
 void hItemsListAction(const gcn::ActionEvent &actionEvent);
 void hItemCoverAction(const gcn::ActionEvent &actionEvent);
+void hLoadingIconAction(const gcn::ActionEvent &actionEvent);
 
 /* Used by each of the above to find their corresponding element */
 Element * findElement(std::string valueStr);

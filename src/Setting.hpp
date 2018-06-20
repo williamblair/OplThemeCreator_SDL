@@ -23,6 +23,9 @@ public:
     std::string getValueStr(void);
     int         getValueInt(void);
     
+    /* Setters */
+    void setValueInt(int val);
+    
 private:
     std::string m_name;
     
