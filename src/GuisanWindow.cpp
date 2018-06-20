@@ -111,6 +111,7 @@ bool GuisanWindow::init(void)
     initEntryGroup(InputIDs[ItemsList]);
     initEntryGroup(InputIDs[ItemCover]);
     initEntryGroup(InputIDs[LoadingIcon]);
+    initEntryGroup(InputIDs[HintText]);
 
     return true;
 }
