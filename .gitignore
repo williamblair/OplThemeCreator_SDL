@@ -13,3 +13,4 @@ thm
 Debug
 *.sln
 OplThemeCreator_VS
+.vscode
