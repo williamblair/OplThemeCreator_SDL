@@ -25,13 +25,15 @@ FontHandler::~FontHandler(void)
     m_messageSprites.clear();
 }
 
-bool FontHandler::open(const std::string &fontStr)
+bool FontHandler::open(const std::string &themeDir, const std::string &fontName)
 {
     /* Close the existing font if it's open */
     this->~FontHandler();
+
+    m_fontName = fontName;
     
-    if(!(m_font = TTF_OpenFont(fontStr.c_str(), FONT_SIZE))) {
-        printf("Failed to open font: %s\n", fontStr.c_str());
+    if(!(m_font = TTF_OpenFont((themeDir+"/"+fontName).c_str(), FONT_SIZE))) {
+        printf("Failed to open font: %s\n", fontName.c_str());
         return false;
     }
     
@@ -141,4 +143,9 @@ bool FontHandler::setY(int y, int index)
 int FontHandler::getNumMessages(void)
 {
     return m_messageSprites.size();
+}
+
+std::string FontHandler::getFontName(void)
+{
+    return m_fontName;
 }

@@ -9,10 +9,11 @@ GuisanWindow::GuisanWindow(void)
     m_Graphics    = NULL;
     m_ImageLoader = NULL;
 
-    m_Gui   = NULL;
-    m_Font  = NULL;
-    m_Top   = NULL;
-    m_Label = NULL;
+    m_Gui         = NULL;
+    m_Font        = NULL;
+    m_Top         = NULL;
+    m_Label       = NULL;
+    m_WriteButton = NULL;
     
     m_TFActionListener = NULL;
 
@@ -42,6 +43,7 @@ void GuisanWindow::close(void)
         }
     }
 
+    if (m_WriteButton) { delete m_WriteButton; m_WriteButton = NULL; }
     if (m_Label) { delete m_Label; m_Label = NULL; }
     if (m_Font) { delete m_Font; m_Font = NULL; }
     if (m_Top) { delete m_Top; m_Top = NULL; }
@@ -105,6 +107,13 @@ bool GuisanWindow::init(void)
     m_Label = new gcn::Label("Hello World!");
     m_Label->setPosition(280, 220);
     m_Top->add(m_Label);
+
+    /* The button to write the current settings to the theme file */
+    m_WriteButton = new gcn::Button("Write Theme");
+    m_WriteButton->setPosition(280, 200);
+    m_WriteButton->setActionEventId("WriteButton");
+    m_WriteButton->addActionListener(m_TFActionListener);
+    m_Top->add(m_WriteButton);
 
     /* Create our input widgets */
     initEntryGroup(InputIDs[MenuIcon]);

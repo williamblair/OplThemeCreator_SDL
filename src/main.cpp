@@ -32,7 +32,7 @@ std::vector<Element> elements;
 /* Put these separate so we can animate them */
 std::vector<Sprite *> loadingIcons;
 
-/* Image names for each game location (Hard Drive, USB, Ethernet, etc */
+/* Image names for each game location (Hard Drive, USB, Ethernet, etc) */
 std::vector<std::string> menuIconList = {
     "usb.png",
     "eth.png",

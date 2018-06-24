@@ -13,8 +13,8 @@
 #include "Setting.hpp"
 #include "FontHandler.hpp"
 #include "ActionEventHandlers.hpp"
-
 #include "EntryGroup.hpp"
+#include "WriteTheme.hpp"
 
 #ifndef GUISAN_WINDOW_H_INCLUDED
 #define GUISAN_WINDOW_H_INCLUDED
@@ -45,7 +45,13 @@ public:
 
     void action(const gcn::ActionEvent &actionEvent)
     {
-        /* Call the corresponding mapping func */
+        /* If the 'write theme' button was clicked */
+        if (actionEvent.getId() == "WriteButton") {
+            writeTheme();
+            return;
+        }
+
+        /* Otherwise call the corresponding mapping func */
         handlerFuncs[actionEvent.getId()](actionEvent);
     }
 };
@@ -85,6 +91,7 @@ private:
     gcn::Container *m_Top;
     gcn::ImageFont *m_Font;
     gcn::Label     *m_Label;
+    gcn::Button    *m_WriteButton;
     
     /* Input Widgets */
     std::vector<EntryGroup> m_EntryGroups;

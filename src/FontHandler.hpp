@@ -24,7 +24,7 @@ public:
     FontHandler(void);
     ~FontHandler(void);
     
-    bool open(const std::string &fontStr);
+    bool open(const std::string &themeDir, const std::string &fontName);
     
     /* Optional position to override the default y increment, which is used by the games list */
     bool addMessage(const std::string &message, int x = -999, int y = -999);
@@ -37,6 +37,7 @@ public:
     bool draw(SDL_Surface *s);
 
     int getNumMessages(void);
+    std::string getFontName(void);
 
 private:
     
@@ -46,6 +47,7 @@ private:
      * and so we can draw a list of messages from top to bottom */
     int                   m_curX;
     int                   m_curY;
+    std::string           m_fontName;
     std::vector<Sprite *> m_messageSprites;
     Uint32              m_messageColor;
 };

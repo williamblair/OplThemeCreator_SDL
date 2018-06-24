@@ -27,19 +27,22 @@ bool Sprite::loadImage(const char *imgSource){
 bool Sprite::loadMessage(TTF_Font *font, const char *message, SDL_Color fg){
     bool status = true;
     m_message = std::string(message);
-    if(font == NULL){
+    if (font == NULL){
         fprintf(stderr, "Sprite: given NULL TTF_Font!\n");
         status = false;
     }
+    else
+    {
+        /* Free the rendered surface if it's been rendered before */
+        if (m_Surface) {
+            SDL_FreeSurface(m_Surface);
+            m_Surface = NULL;
+        }
 
-    /* Free the rendered surface if it's been rendered before */
-    if (m_Surface) {
-        SDL_FreeSurface(m_Surface);
-        m_Surface = NULL;
+        m_Surface = TTF_RenderText_Solid(font, message, fg);
     }
 
-    m_Surface = TTF_RenderText_Solid(font, message, fg);
-    if(!m_Surface){
+    if (!m_Surface) {
         fprintf(stderr, "Sprite: failed to render font: %s\n", TTF_GetError());
         status = false;
     }

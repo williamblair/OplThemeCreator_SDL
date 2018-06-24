@@ -32,11 +32,17 @@ class Display
 
         /* Returns the SDL id of the window */
         int getWindowId(void);
+
+        /* Returns what the user entered as the BG color */
+        Uint32 getBGColor(void);
     
     private:
         SDL_Window *m_window;
         SDL_Surface *m_surface;
         
+        /* m_bgColor is what SDL actually uses to display the color,
+         * while m_settingBGColor is what the user entered */
+        Uint32 m_settingBGColor;
         Uint32 m_bgColor;
         
         // For SDL_Image, which doesnt have a tracker for this

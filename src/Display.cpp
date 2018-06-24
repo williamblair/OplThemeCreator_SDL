@@ -5,6 +5,7 @@ Display::Display(void)
     m_window = NULL;
     m_surface = NULL;
     
+    m_settingBGColor = 0;
     m_bgColor = 0;
     
     imageWasInit = false;
@@ -87,6 +88,7 @@ void Display::setBGColor(Uint32 color)
     g = (color & 0x00FF00) >> 8;
     b = (color & 0x0000FF);
     
+    m_settingBGColor = color;
     m_bgColor = SDL_MapRGB(m_surface->format, r,g,b);
 }
 
@@ -107,5 +109,10 @@ void Display::update(void)
 int Display::getWindowId(void)
 {
     return (m_window ? SDL_GetWindowID(m_window) : -1);
+}
+
+Uint32 Display::getBGColor(void)
+{
+    return m_settingBGColor;
 }
 
