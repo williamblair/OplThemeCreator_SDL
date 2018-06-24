@@ -1,3 +1,4 @@
+#include "Display.hpp"
 #include "FontHandler.hpp"
 #include "Setting.hpp"
 #include "Element.hpp"
@@ -18,6 +19,7 @@
 #define WRITE_THEME_H_INCLUDED
 
 /* data from main.cpp */
+extern Display d;
 extern FontHandler gamesListFontHandler;
 extern FontHandler hintTextFontHandler;
 extern std::vector<Setting> settings;
