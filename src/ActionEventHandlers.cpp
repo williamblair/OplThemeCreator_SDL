@@ -57,21 +57,50 @@ void hItemsListAction(const gcn::ActionEvent &actionEvent)
 
     int val = 0;
     sscanf(t->getText().c_str(), "%d", &val);
-
-    if (actionEvent.getId() == InputIDs[ItemsList] + "X")
-        for (int i = 0; i < gamesListFontHandler.getNumMessages(); i++)
-        {
-            gamesListFontHandler.setX(val, i);
-        }
-    else
+    
+    /* We'll need to update both the Element and the font handler */
+    Element *e = findElement(InputIDs[ItemsList]);
+    
+    if (e)
     {
-        /* Move down a line for each message
-         * FONT_HEIGHT in FontHandler.hpp */
-        int curYOffset = 0;
-        for (int i = 0; i < gamesListFontHandler.getNumMessages(); i++)
+        std::vector<Setting> *elementSettings = e->getSettings();
+        
+        if (actionEvent.getId() == InputIDs[ItemsList] + "X")
         {
-            gamesListFontHandler.setY(val+curYOffset, i);
-            curYOffset += FONT_HEIGHT;
+            /* Update the font handler */
+            for (int i = 0; i < gamesListFontHandler.getNumMessages(); i++)
+            {
+                gamesListFontHandler.setX(val, i);
+            }
+            
+            /* Update the setting */
+            for (int i = 0; i < elementSettings->size(); i++)
+            {
+                if (elementSettings->at(i).getName() == "x") {
+                    elementSettings->at(i).setValueInt(val);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            /* Move down a line for each message
+             * FONT_HEIGHT in FontHandler.hpp */
+            int curYOffset = 0;
+            for (int i = 0; i < gamesListFontHandler.getNumMessages(); i++)
+            {
+                gamesListFontHandler.setY(val+curYOffset, i);
+                curYOffset += FONT_HEIGHT;
+            }
+            
+            /* Update the setting */
+            for (int i = 0; i < elementSettings->size(); i++)
+            {
+                if (elementSettings->at(i).getName() == "y") {
+                    elementSettings->at(i).setValueInt(val);
+                    break;
+                }
+            }
         }
     }
 }
