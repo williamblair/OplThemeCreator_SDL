@@ -14,7 +14,6 @@
 #include "FontHandler.hpp"
 #include "ActionEventHandlers.hpp"
 #include "EntryGroup.hpp"
-#include "WriteTheme.hpp"
 
 #ifndef GUISAN_WINDOW_H_INCLUDED
 #define GUISAN_WINDOW_H_INCLUDED
@@ -31,7 +30,10 @@ static std::map<std::string, handlerFunc> handlerFuncs = {
     { InputIDs[LoadingIcon]+"X", hLoadingIconAction },
     { InputIDs[LoadingIcon]+"Y", hLoadingIconAction },
     { InputIDs[HintText] + "X", hHintTextAction },
-    { InputIDs[HintText] + "Y", hHintTextAction }
+    { InputIDs[HintText] + "Y", hHintTextAction },
+    { InputIDs[WriteButton], hWriteButtonAction },
+    { InputIDs[MainScreenButton], hMainScreenButtonAction },
+    { InputIDs[InfoScreenButton], hInfoScreenButtonAction }
 };
 
 /* Window dimensions */
@@ -45,13 +47,7 @@ public:
 
     void action(const gcn::ActionEvent &actionEvent)
     {
-        /* If the 'write theme' button was clicked */
-        if (actionEvent.getId() == "WriteButton") {
-            writeTheme();
-            return;
-        }
-
-        /* Otherwise call the corresponding mapping func */
+        /* Call the corresponding mapping func */
         handlerFuncs[actionEvent.getId()](actionEvent);
     }
 };
@@ -91,7 +87,13 @@ private:
     gcn::Container *m_Top;
     gcn::ImageFont *m_Font;
     gcn::Label     *m_Label;
+    
+    /* Button to write the current theme config to file */
     gcn::Button    *m_WriteButton;
+    
+    /* Buttons to switch between the Main and Info screens */
+    gcn::Button     *m_MainScreenButton;
+    gcn::Button     *m_InfoScreenButton;
     
     /* Input Widgets */
     std::vector<EntryGroup> m_EntryGroups;

@@ -311,6 +311,24 @@ void hHintTextAction(const gcn::ActionEvent &actionEvent)
     }
 }
 
+void hWriteButtonAction(const gcn::ActionEvent &actionEvent)
+{
+    writeTheme();
+    return;
+}
+
+void hMainScreenButtonAction(const gcn::ActionEvent &actionEvent)
+{
+    currentScreen = MainScreen;
+    return;
+}
+
+void hInfoScreenButtonAction(const gcn::ActionEvent &actionEvent)
+{
+    currentScreen = InfoScreen;
+    return;
+}
+
 Element * findElement(std::string valueStr)
 {
     for (int i = 0; i < elements.size(); i++)

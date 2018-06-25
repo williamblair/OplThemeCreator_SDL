@@ -54,6 +54,11 @@ std::vector<std::string> dummyItemsList = {
 /* The index of the current selected game */
 int selectedGameIndex = 0;
 
+/* Which screen are we looking at? */
+//enum screenType { MainScreen, InfoScreen };
+#include "ScreenType.hpp"
+ScreenType currentScreen = MainScreen;
+
 /* Hint messages for the HintText element */
 std::vector<std::string> hintTextList = {
     "Menu",
@@ -183,6 +188,16 @@ void mainLoop(void)
                     selectedMenuIndex++;
                     if (selectedMenuIndex > menuIconList.size() - 1) selectedMenuIndex = 0;
                 }
+                
+                else if (event.key.keysym.sym == SDLK_1)
+                {
+                    currentScreen = MainScreen;
+                }
+                
+                else if (event.key.keysym.sym == SDLK_2)
+                {
+                    currentScreen = InfoScreen;
+                }
             }
 
             /* Send remaining SDL events to guisan if the window is active */
@@ -193,25 +208,47 @@ void mainLoop(void)
 
         /* Clear the screen */
         d.clear();
-
-        /* Draw elements (if they have an image) */
-        for (int i = 0; i < elements.size(); i++)
+        
+        /* Draw main screen stuff if we're on it */
+        if (currentScreen == MainScreen)
         {
-            if (elements.at(i).getSettings()->at(0).getValueStr() == "MenuIcon") {
-                elements.at(i).draw(d.getSurface(), selectedMenuIndex);
+            /* Draw elements (if they have an image) */
+            for (int i = 0; i < elements.size(); i++)
+            {
+                /* If the element is a main element */
+                if (elements.at(i).getName().find("main") != std::string::npos)
+                {
+                    if (elements.at(i).getSettings()->at(0).getValueStr() == "MenuIcon") {
+                        elements.at(i).draw(d.getSurface(), selectedMenuIndex);
+                    }
+                    else {
+                        elements.at(i).draw(d.getSurface());
+                    }
+                }
             }
-            else {
-                elements.at(i).draw(d.getSurface());
+    
+            /* Animate the loading icon */
+            loadingIcons.at(curLoadingIcon++)->draw(d.getSurface());
+            if (curLoadingIcon >= loadingIcons.size()) curLoadingIcon = 0;
+    
+            /* Draw some text */
+            gamesListFontHandler.draw(d.getSurface());
+            hintTextFontHandler.draw(d.getSurface());
+        }
+        
+        /* If we're on the info screen */
+        else
+        {
+            /* Draw elements (if they have an image) */
+            for (int i = 0; i < elements.size(); i++)
+            {
+                /* If the element is a main element */
+                if (elements.at(i).getName().find("info") != std::string::npos)
+                {
+                    elements.at(i).draw(d.getSurface());
+                }
             }
         }
-
-        /* Animate the loading icon */
-        loadingIcons.at(curLoadingIcon++)->draw(d.getSurface());
-        if (curLoadingIcon >= loadingIcons.size()) curLoadingIcon = 0;
-
-        /* Draw some text */
-        gamesListFontHandler.draw(d.getSurface());
-        hintTextFontHandler.draw(d.getSurface());
 
         /* Update the screen */
         d.update();
