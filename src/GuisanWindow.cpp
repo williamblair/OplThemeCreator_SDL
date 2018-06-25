@@ -15,6 +15,9 @@ GuisanWindow::GuisanWindow(void)
     m_Label       = NULL;
     m_WriteButton = NULL;
     
+    m_MainScreenButton = NULL;
+    m_InfoScreenButton = NULL;
+    
     m_TFActionListener = NULL;
 
     curInputX = curInputY = 10;
@@ -42,6 +45,9 @@ void GuisanWindow::close(void)
             e.textFieldY = NULL;
         }
     }
+    
+    if (m_MainScreenButton) { delete m_MainScreenButton; m_MainScreenButton = NULL; }
+    if (m_InfoScreenButton) { delete m_InfoScreenButton; m_InfoScreenButton = NULL; }
 
     if (m_WriteButton) { delete m_WriteButton; m_WriteButton = NULL; }
     if (m_Label) { delete m_Label; m_Label = NULL; }
@@ -107,11 +113,27 @@ bool GuisanWindow::init(void)
     m_Label = new gcn::Label("Hello World!");
     m_Label->setPosition(280, 220);
     m_Top->add(m_Label);
+    
+    /* Buttons to swtich between main and info screens */
+    m_MainScreenButton = new gcn::Button("Main Screen");
+    m_InfoScreenButton = new gcn::Button("Info Screen");
+    
+    m_MainScreenButton->setPosition(480, 450);
+    m_InfoScreenButton->setPosition(560, 450);
+    
+    m_MainScreenButton->setActionEventId(InputIDs[MainScreenButton]);
+    m_InfoScreenButton->setActionEventId(InputIDs[InfoScreenButton]);
+    
+    m_MainScreenButton->addActionListener(m_TFActionListener);
+    m_InfoScreenButton->addActionListener(m_TFActionListener);
+    
+    m_Top->add(m_MainScreenButton);
+    m_Top->add(m_InfoScreenButton);
 
     /* The button to write the current settings to the theme file */
     m_WriteButton = new gcn::Button("Write Theme");
     m_WriteButton->setPosition(280, 200);
-    m_WriteButton->setActionEventId("WriteButton");
+    m_WriteButton->setActionEventId(InputIDs[WriteButton]);
     m_WriteButton->addActionListener(m_TFActionListener);
     m_Top->add(m_WriteButton);
 
