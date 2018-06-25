@@ -14,21 +14,40 @@ void hMenuIconAction(const gcn::ActionEvent &actionEvent)
     
     Element *e = findElement(InputIDs[MenuIcon]);
     if (e) {
+        
+        /* We'll need to update the settings as well */
+        std::vector<Setting> *elementSettings = e->getSettings();
 
         /* Figure out if the input is for the X or Y,
          * then loop through and update the new values  */
-        if (actionEvent.getId() == InputIDs[MenuIcon] + "X")
+        if (actionEvent.getId() == InputIDs[MenuIcon] + "X") {
             for (int j = 0; j < menuIconList.size(); j++)
             {
                 int curY = e->getYCentered(j);
                 e->setPosCentered(val, curY, j);
             }
-        else
+            for (int j = 0; j < elementSettings->size(); j++) 
+            {
+                if (elementSettings->at(j).getName() == "x") {
+                    elementSettings->at(j).setValueInt(val);
+                    break;
+                }
+            }
+        }
+        else {
             for (int j = 0; j < menuIconList.size(); j++)
             {
                 int curX = e->getXCentered(j);
                 e->setPosCentered(curX, val, j);
-            } 
+            }
+            for (int j = 0; j < elementSettings->size(); j++) 
+            {
+                if (elementSettings->at(j).getName() == "y") {
+                    elementSettings->at(j).setValueInt(val);
+                    break;
+                }
+            }
+        }
     }
 }
 
