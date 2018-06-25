@@ -6,6 +6,7 @@
 #include "FontHandler.hpp"
 #include "GuisanWindow.hpp"
 #include "ApplySettingsHandlers.hpp"
+#include "ScreenType.hpp"
 
 #include <cstdlib>
 #include <cstdio>
@@ -55,8 +56,6 @@ std::vector<std::string> dummyItemsList = {
 int selectedGameIndex = 0;
 
 /* Which screen are we looking at? */
-//enum screenType { MainScreen, InfoScreen };
-#include "ScreenType.hpp"
 ScreenType currentScreen = MainScreen;
 
 /* Hint messages for the HintText element */
