@@ -364,6 +364,22 @@ void applySettings(void)
         }
 
         /* If we're dealing with a info element */
+        // TODO - merge with above 
+        else if (elements.at(i).getName().find("info") != std::string::npos)
+        {
+            /* Call the corresponding setting handler*/
+            if (elementSettings->at(0).getValueStr() == "Background")
+            {
+                /*for (int j = 0; j < elementSettings->size(); j++)
+                {
+                    if (elementSettings->at(j).getName() == "default") {
+                        std::string image = themeDir + "/" + elementSettings->at(j).getValueStr() + ".jpg";
+                        elements.at(i).addImage(image);
+                    }
+                }*/
+                hApplyBackground(elementSettings, i);
+            }
+        }
     }
 
     // DEBUG
