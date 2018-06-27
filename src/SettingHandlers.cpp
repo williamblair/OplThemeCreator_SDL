@@ -24,6 +24,7 @@ bool hDefaultFont(Display &d, Setting &s)
      * in the theme directory necessarily */
     
     return gamesListFontHandler.open(themeDir, s.getValueStr()) &&
-            hintTextFontHandler.open(themeDir, s.getValueStr());
+            hintTextFontHandler.open(themeDir, s.getValueStr()) &&
+            attributeTextFontHandler.open(themeDir, s.getValueStr());
 }
 

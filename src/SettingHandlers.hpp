@@ -10,6 +10,7 @@
 extern std::map<std::string, Uint32> settingColors;
 extern FontHandler gamesListFontHandler;
 extern FontHandler hintTextFontHandler;
+extern FontHandler attributeTextFontHandler;
 extern std::string themeDir;
 
 #ifndef SETTING_HANDLERS_H_INCLUDED

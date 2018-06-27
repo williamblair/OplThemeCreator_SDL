@@ -24,6 +24,7 @@ Display d;
 Setting s;
 FontHandler gamesListFontHandler;
 FontHandler hintTextFontHandler;
+FontHandler attributeTextFontHandler;
 
 GuisanWindow guisanWindow;
 
@@ -66,6 +67,16 @@ std::vector<std::string> hintTextList = {
     "Refresh",
     "Rename",
     "Delete"
+};
+
+/* Text for Attributes on the info page */
+std::map<std::string, std::string> attributeTextList = {
+    { "#Name"     , "Persona 4"   },
+    { "#Longname" , "App Name"    },
+    { "#Media"    , "DVD"         },
+    { "#Format"   , "HDL"         },
+    { "#Size"     , "2048"        },
+    { "#Startup"  , "SLUS 217828" }
 };
 
 /* Colors we're going to use to draw with
@@ -247,6 +258,9 @@ void mainLoop(void)
                     elements.at(i).draw(d.getSurface());
                 }
             }
+
+            /* Draw some text */
+            attributeTextFontHandler.draw(d.getSurface());
         }
 
         /* Update the screen */
@@ -339,6 +353,7 @@ void applySettings(void)
     /* Set some defaults first */
     gamesListFontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
     hintTextFontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
+    attributeTextFontHandler.setColor(SDL_MapRGB(d.getSurface()->format, 255, 255, 255));
     hintTextFontHandler.setX(0); hintTextFontHandler.setY(0);
 
     /* Parse the global settings */
@@ -378,6 +393,27 @@ void applySettings(void)
                     }
                 }*/
                 hApplyBackground(elementSettings, i);
+            }
+            else if (elementSettings->at(0).getValueStr() == "AttributeText")
+            {
+                std::string text = "";
+                int x = 0, y = 0;
+
+                for (int j = 0; j < elementSettings->size(); j++)
+                {
+                    if (elementSettings->at(j).getName() == "attribute") {
+                        text = attributeTextList[elementSettings->at(j).getValueStr()];
+                    }
+                    else if (elementSettings->at(j).getName() == "x") {
+                        x = elementSettings->at(j).getValueInt();
+                    }
+                    else if (elementSettings->at(j).getName() == "y") {
+                        y = elementSettings->at(j).getValueInt();
+                    }
+                }
+                
+                /* The true is to center the text on the given x,y */
+                attributeTextFontHandler.addMessage(text, x, y, true);
             }
         }
     }

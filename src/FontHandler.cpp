@@ -40,7 +40,7 @@ bool FontHandler::open(const std::string &themeDir, const std::string &fontName)
     return true;
 }
 
-bool FontHandler::addMessage(const std::string &message, int x, int y)
+bool FontHandler::addMessage(const std::string &message, int x, int y, bool centered)
 {   
     /* Extract the values from the color to 
      * create a SDL color*/
@@ -65,8 +65,10 @@ bool FontHandler::addMessage(const std::string &message, int x, int y)
         if(x < 0) x = 640 + x;
         if(y < 0) y = 480 + y;
         
-        m_messageSprites.back()->setX(x);
-        m_messageSprites.back()->setY(y);
+        int textWidth = m_messageSprites.back()->getW();
+        int textHeight = m_messageSprites.back()->getH();
+        m_messageSprites.back()->setX(x - (centered ? (textWidth / 2) : 0));
+        m_messageSprites.back()->setY(y - (centered ? (textHeight /2) : 0));
     }
     else
     {

@@ -27,7 +27,7 @@ public:
     bool open(const std::string &themeDir, const std::string &fontName);
     
     /* Optional position to override the default y increment, which is used by the games list */
-    bool addMessage(const std::string &message, int x = -999, int y = -999);
+    bool addMessage(const std::string &message, int x = -999, int y = -999, bool centered = false);
     
     bool setColor(Uint32 color, int index = -1);
     

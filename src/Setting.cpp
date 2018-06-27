@@ -29,13 +29,18 @@ bool Setting::parse(const std::string &str)
     /* See if we can parse an int out of it.
      * It might not work but that's ok */
     sscanf(m_valueStr.c_str(), "%d", &m_valueInt);
+
+    /* Apply POS_MID if given */
+    if (m_valueStr == "POS_MID") {
+        m_valueInt = (m_name == "x") ? 640 / 2 : 480 / 2;
+    }
     
     return true;    
 }
 
 void Setting::print(void)
 {
-    printf("Name: %s Value: %s\n", m_name.c_str(), m_valueStr.c_str());
+    printf("Name: %s Value: %s ValueInt: %d\n", m_name.c_str(), m_valueStr.c_str(), m_valueInt);
 }
 
 std::string Setting::getName(void){return m_name;}
