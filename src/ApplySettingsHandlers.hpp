@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 #include <SDL2/SDL.h>
 
 #include "Setting.hpp"
