@@ -396,24 +396,33 @@ void applySettings(void)
             }
             else if (elementSettings->at(0).getValueStr() == "AttributeText")
             {
+                std::string attributeStr = "";
                 std::string text = "";
                 int x = 0, y = 0;
 
                 for (int j = 0; j < elementSettings->size(); j++)
                 {
-                    if (elementSettings->at(j).getName() == "attribute") {
-                        text = attributeTextList[elementSettings->at(j).getValueStr()];
+                    Setting &e = elementSettings->at(j);
+
+                    if (e.getName() == "attribute") {
+                        if (e.getValueStr()[0] == '#')
+                            text = attributeTextList[e.getValueStr()];
+                        else
+                            text = e.getValueStr() + ":";
+                        
+                        attributeStr = e.getValueStr();
                     }
-                    else if (elementSettings->at(j).getName() == "x") {
-                        x = elementSettings->at(j).getValueInt();
+                    else if (e.getName() == "x") {
+                        x = e.getValueInt();
                     }
-                    else if (elementSettings->at(j).getName() == "y") {
-                        y = elementSettings->at(j).getValueInt();
+                    else if (e.getName() == "y") {
+                        y = e.getValueInt();
                     }
                 }
                 
-                /* The true is to center the text on the given x,y */
-                attributeTextFontHandler.addMessage(text, x, y, true);
+                /* The last arg is a boolean as to wether to center the text - for the 'custom'
+                 * names it doesn't appear that the text is centered */
+                attributeTextFontHandler.addMessage(text, x, y, attributeStr[0] == '#');
             }
         }
     }
