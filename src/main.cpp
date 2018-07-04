@@ -424,6 +424,26 @@ void applySettings(void)
                  * names it doesn't appear that the text is centered */
                 attributeTextFontHandler.addMessage(text, x, y, attributeStr[0] == '#');
             }
+
+            else if (elementSettings->at(0).getValueStr() == "GameImage")
+            {
+                std::string type = "";
+                std::string pattern = "";
+
+                for (int j = 0; j < elementSettings->size(); j++)
+                {
+                    if (elementSettings->at(j).getName() == "type") {
+                        type = elementSettings->at(j).getValueStr();
+                    }
+                    else if (elementSettings->at(j).getName() == "pattern") {
+                        pattern = elementSettings->at(j).getValueStr();
+                    }
+                }
+
+                if (type == "GameImage" && pattern == "COV") {
+                    hApplyItemCover(elementSettings, i);
+                }
+            }
         }
     }
 

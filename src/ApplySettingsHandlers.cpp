@@ -1,5 +1,12 @@
 #include "ApplySettingsHandlers.hpp"
 
+/* When the cover overlay is set on the main screen,
+ * remember its new size/pos to use on the info page */
+int resizedCoverWidth  = -1;
+int resizedCoverHeight = -1;
+int resizedCoverX = -1;
+int resizedCoverY = -1;
+
 void hApplyBackground(std::vector<Setting> *elementSettings, int i)
 {
     /* Open the image */
@@ -80,9 +87,6 @@ void hApplyItemCover(std::vector<Setting> *elementSettings, int i)
      * the new size of the cover image */
     int ulx = 0, uly = 0, urx = 0, ury = 0, llx = 0, lly = 0, lrx = 0, lry = 0;
 
-    /* The new size of the cover image based on the above coordinates */
-    int newCoverWidth = 1, newCoverHeight = 1;
-
     /* The name of the item cover image (assumes.png for now...) */
     std::string coverImage = "";
 
@@ -140,16 +144,24 @@ void hApplyItemCover(std::vector<Setting> *elementSettings, int i)
     elements.at(i).addImage(image);
     elements.at(i).setPosCentered(x, y);
     
-    /* Calculate and resize the cover image */
-    newCoverWidth = urx - ulx;
-    newCoverHeight = lly - uly;
-    elements.at(i).setSize(newCoverWidth, newCoverHeight);
+    /* Calculate and resize the cover image
+     * if it hasn't been yet (main vs. info screen) */
+    if (resizedCoverWidth == -1) {
+        resizedCoverWidth = urx - ulx;
+        resizedCoverHeight = lly - uly;
+    }
+    elements.at(i).setSize(resizedCoverWidth, resizedCoverHeight);
 
     /* Load, calculate the upper left pos of the cover,
      * and set it */
     image = themeDir + "/" + coverImage + ".png";
     elements.at(i).addImage(image);
-    elements.at(i).setPos((x-(coverWidth/2))-ulx, (y-(coverHeight/2))-uly);
+    /* If the new cover size hasn't been calculated yet */
+    if (resizedCoverX == -1) {
+        resizedCoverX = (x-(coverWidth/2))-ulx;
+        resizedCoverY = (y-(coverHeight/2))-uly;
+    }
+    elements.at(i).setPos(resizedCoverX, resizedCoverY);
 }
 
 void hApplyLoadingIcon(std::vector<Setting> *elementSettings, int i)
